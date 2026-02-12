@@ -1,0 +1,254 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="EnvDTE" #>
+<#@ assembly name="C:\sap\ado.net\v4.5\Sap.Data.Hana.V4.5.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="Sap.Data.Hana" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #>
+<#+
+
+ public class ApiSecurity
+    {
+        public string TableName { get; set; }
+
+        public string ReadRoles { get; set; }
+
+        public string WriteRoles { get; set; }
+
+        public ApiSecurity(string tableName, string  roles )
+        {
+            TableName = tableName;
+            ReadRoles = roles;
+            WriteRoles = roles;
+        }
+
+          public ApiSecurity(string tableName, string  readRoles, string writeRoles )
+        {
+            TableName = tableName;
+            ReadRoles = readRoles;
+            WriteRoles = writeRoles;
+        }
+    }
+
+    public string GetRoles(string roles)
+    {
+        return ""; //"[Authorize(Roles = \"Administrator" + (String.IsNullOrEmpty(roles) ? "" : "," + roles) + "\")]";
+    }
+
+    object defaultNamespace = "";
+
+    String Namespace = "";
+
+    Dictionary<string, string> FriendlyTypes = new Dictionary<string, string>()
+                                                   {
+                                                  
+                                                       {"String","string"},
+                                                       {"Byte","byte"}, 
+                                                       {"Int16", "short"},
+                                                       {"Int32","int"},
+                                                       {"Int64", "long"}, 
+                                                       {"Decimal","decimal"}, 
+                                                       {"DateTime", "DateTime"}
+                                                   };
+
+        public string GetClassName(string table)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(table.Split(new string[] { ".ZT_",".ZV_", }, StringSplitOptions.None).Last().ToLower()).Replace("_","");
+        }
+
+        public string GetColumnName(string column, string tableName){
+            return column.Replace(tableName, "");
+        }
+
+        public string GetColumnName(string column){
+            return column.Split('.').Last();
+        }
+
+        public void GenerateNameSpaces(){
+            var hostServiceProvider = (IServiceProvider)Host;
+            var dte = 
+                (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+            var activeSolutionProjects = (Array)dte.ActiveSolutionProjects;
+            var dteProject = (EnvDTE.Project)activeSolutionProjects.GetValue(0);
+            defaultNamespace = 
+                dteProject.Properties.Item("DefaultNamespace").Value;
+            var templateDir = Path.GetDirectoryName(Host.TemplateFile);
+            var fullPath = dteProject.Properties.Item("FullPath").Value.ToString();
+            fullPath = 
+                fullPath.EndsWith("\\") 
+                    ? fullPath.Substring(0, fullPath.Length-1) 
+                    : fullPath;
+            var subNamespace = 
+                templateDir.Replace(fullPath, string.Empty).Replace("\\", ".");
+            Namespace = string.Concat(defaultNamespace, subNamespace);
+        }
+
+        public List<Table> GenerateTables(string connectionString)
+        {
+            GenerateNameSpaces();
+            var tables = new List<Table>();
+            var _conn = new HanaConnection(connectionString);
+            
+            _conn.Open();
+            if (_conn == null)
+            {
+             return tables;
+            }
+
+            HanaCommand cmd =
+                new HanaCommand("SELECT schema_name,table_name FROM sys.tables WHERE schema_name = 'SETAPP'", _conn);
+            HanaDataReader dr = cmd.ExecuteReader();
+            if (dr.IsClosed) return tables; 
+            while (dr.Read())
+            {
+
+                var command = $"SELECT TOP 1 * FROM \"{dr.GetString(0)}\".\"{dr.GetString(1)}\"";
+
+                try
+                {
+                    var icmd = new HanaCommand(command, _conn);
+                    var reader = icmd.ExecuteReader();
+                    var newTable = new Table()
+                    {
+                        Name = dr.GetString(1),
+                        Schema = reader.GetSchemaTable()
+                    };
+
+                    tables.Add(newTable);
+               
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        var newColumn = new Column()
+                        {
+                            Name = reader.GetName(i),
+                            Type = reader.GetFieldType(i).Name,
+                            IsKey = newTable.Schema.Rows[i][6] as bool? ?? false, 
+                            IsIdentity = newTable.Schema.Rows[i][18] as bool? ?? false, 
+                            IsNullable = newTable.Schema.Rows[i][13]  as bool? ?? false
+                        };
+                        if(newColumn.IsKey){
+                            newTable.PrimaryKey = newColumn.Name;
+                            newTable.AutoIncrement = newColumn.IsIdentity;
+                            newTable.PrimaryKeyType = newColumn.Type;
+                        }
+                        newTable.Cols.Add(newColumn);
+                 
+                    }
+                 
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                 
+                
+                }
+                
+                
+            }
+            dr.Close();
+                _conn.Close();
+            return tables;
+        }
+
+        public List<Table> GenerateViews(string connectionString)
+        {
+            
+            var tables = new List<Table>();
+            var _conn = new HanaConnection(connectionString);
+            
+            _conn.Open();
+            if (_conn == null)
+            {
+             return tables;
+            }
+
+            HanaCommand cmd =
+                new HanaCommand("SELECT schema_name,view_name FROM sys.views WHERE schema_name = 'SETAPP'", _conn);
+            HanaDataReader dr = cmd.ExecuteReader();
+            if (dr.IsClosed) return tables; 
+            while (dr.Read())
+            {
+
+			
+                var command = $"SELECT TOP 1 * FROM \"{dr.GetString(0)}\".\"{dr.GetString(1)}\"";
+
+                try{
+                    var icmd = new HanaCommand(command, _conn);
+                    var reader = icmd.ExecuteReader();
+
+                    var newTable = new Table()
+                    {
+                        Name = dr.GetString(1),
+                        Schema = reader.GetSchemaTable()
+                    };
+
+                    tables.Add(newTable);
+               
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        var newColumn = new Column()
+                        {
+                            Name = reader.GetName(i),
+                            Type = reader.GetFieldType(i).Name,
+                            IsKey = newTable.Schema.Rows[i][6] as bool? ?? false, 
+                            IsIdentity = newTable.Schema.Rows[i][18] as bool? ?? false,
+                            IsNullable = newTable.Schema.Rows[i][13] as bool? ?? false 
+                        };
+                        if(newColumn.IsKey){
+                            newTable.PrimaryKey = newColumn.Name;
+                            newTable.AutoIncrement = newColumn.IsIdentity;
+                            newTable.PrimaryKeyType = newColumn.Type;
+                        }
+                        newTable.Cols.Add(newColumn);
+                 
+                    }
+                 
+                    reader.Close();
+               }catch(Exception ex){
+                throw new Exception(command + "\n" +ex);
+               }
+                
+                
+            }
+            dr.Close();
+            _conn.Close();
+            return tables;
+        }
+
+
+        /* TODO:  TORED PROCEDURES
+        [‎12.‎05.‎2017 17:42] Julian Breunung: 
+SELECT * FROM 
+"SYS"."PROCEDURES" where SCHEMA_NAME = 'SETAPP' 
+SELECT * FROM 
+"SYS"."PROCEDURE_PARAMETERS" where SCHEMA_NAME = 'SETAPP' 
+
+        
+        */
+
+
+
+    public class Table{
+        public string Name = ""; 
+        public List<Column> Cols = new List<Column>();
+        public DataTable Schema{get;set;}
+        public string PrimaryKey ="";
+        public bool AutoIncrement = false; 
+        public string PrimaryKeyType = "";
+    }
+
+    public class Column{
+        public	string Name =  "";
+        public	string Type = ""; 
+        public bool IsKey = false;
+        public bool IsIdentity = false; 
+        public bool IsNullable = false; 
+    }
+
+#>

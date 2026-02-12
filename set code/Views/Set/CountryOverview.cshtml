@@ -1,0 +1,11 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container">
+    <div ng-repeat="country in $ctrl.countryList" class="flex-box" style="width:30% !important" >
+        <h2><a ui-sref="analysis.cockpit({country:country.id,date:$root.$stateParams.date})">{{country.Name}}</a></h2>
+        <br /><br />
+    </div>
+</div>

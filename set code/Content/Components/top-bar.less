@@ -1,0 +1,63 @@
+﻿#top-bar {
+    display: flex;
+   // flex: auto;
+    margin-bottom: 10px;
+    font-weight: 200;
+    min-height:42px; 
+    overflow: hidden; 
+
+    .title-bar {
+        background: @brand-primary;
+        padding: 10px 15px;
+        color: white;
+        flex-grow: 1;
+        font-size: 16px;
+         height:42px;
+
+        a {
+            color: white;
+        }
+
+        img {
+            float: left;
+            vertical-align: middle;
+            margin-right: 5px;
+            height: 20px;
+        }
+    }
+
+    .user-bar {
+        a {
+            background: @brand-primary;
+            padding: 9px 15px;
+            display: inline-block;
+            color: white;
+            height:42px;
+
+            &:hover {
+                background: darken( @brand-primary, 10%);
+                text-decoration: none;
+            }
+        }
+
+        img {
+            vertical-align: middle;
+            margin-right: 5px;
+            height: 24px;
+            border-radius: 50px;
+        }
+    }
+
+    .link-bar {
+        background: @body-bg;
+
+        a {
+            padding: 10px 6px;
+            display: inline-block;
+
+            &:hover {
+                background: darken(@body-bg, 10%);
+            }
+        }
+    }
+}

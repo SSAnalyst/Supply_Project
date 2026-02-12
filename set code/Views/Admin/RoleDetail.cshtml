@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+}
+
+<side-nav heading="Permissions for {{$ctrl.role.RoleName}}">
+
+    <h2>Read Permissions</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Permission</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tr ng-repeat="permission in $ctrl.role.Permissions |filter: {PermissionName:'read.'}">
+            <td>{{permission.PermissionId}}</td>
+            <td>{{permission.PermissionName}}</td>
+            <td class="text-right text-danger"><a ng-click="$ctrl.removeCombination(permission)"><i ng-class="$root.Icons.removeLink"></i></a></td>
+        </tr>
+        <tr ng-repeat="permission in $ctrl.permissions |filter: {PermissionName:'read.'}|diff:$ctrl.role.Permissions:'PermissionId'">
+            <td>{{permission.PermissionId}}</td>
+            <td class="text-muted">{{permission.PermissionName}}</td>
+            <td class="text-right"><a ng-click="$ctrl.addCombination(permission.PermissionId)"><i ng-class="$root.Icons.link"></i></a></td>
+        </tr>
+    </table>
+    <h2>Write Permissions</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Permission</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tr ng-repeat="permission in $ctrl.role.Permissions |filter: {PermissionName:'write.'}">
+            <td>{{permission.PermissionId}}</td>
+            <td>{{permission.PermissionName}}</td>
+            <td class="text-right text-danger"><a ng-click="$ctrl.removeCombination(permission)"><i ng-class="$root.Icons.removeLink"></i></a></td>
+        </tr>
+        <tr ng-repeat="permission in $ctrl.permissions |filter: {PermissionName:'write.'}|diff:$ctrl.role.Permissions:'PermissionId'">
+            <td>{{permission.PermissionId}}</td>
+            <td class="text-muted">{{permission.PermissionName}}</td>
+            <td class="text-right"><a ng-click="$ctrl.addCombination(permission.PermissionId)"><i ng-class="$root.Icons.link"></i></a></td>
+        </tr>
+    </table>
+    <h2>Add Permission</h2>
+    <div class="input-group">
+        <input class="form-control" ng-model="$ctrl.newPermission" />
+        <div class="input-group-btn">
+            <button class=" btn btn-default" ng-click="$ctrl.addPermission()">Add Permission</button>
+        </div>
+    </div>
+    
+</side-nav>

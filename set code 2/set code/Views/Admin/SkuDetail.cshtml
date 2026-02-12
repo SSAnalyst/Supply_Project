@@ -1,0 +1,37 @@
+﻿
+@{
+    Layout = null;
+}
+
+<h1 class="top">
+    {{$ctrl.item.BayerSkuName}}
+    <a class="closebtn" ui-sref="^"><i ng-class="$root.Icons.close"></i></a>
+</h1>
+<div class="content">
+    <table class="table">
+        <tr>
+            <td>Id</td>
+            <td>{{$ctrl.item.BayerSkuUuid}}</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>{{$ctrl.item.BayerSkuName}}</td>
+        </tr>
+        <tr>
+            <td>Conversion Factor</td>
+            <td>{{$ctrl.item.ConversionFactor|number:0}}</td>
+        </tr>
+        <tr>
+            <td>Last Update</td>
+            <td>{{$ctrl.item.LastUpdate|date}}</td>
+        </tr>
+        <tr>
+            <td>Inserted On</td>
+            <td>{{$ctrl.item.InsertOn|date}}</td>
+        </tr>
+        <tr>
+            <td>Invalid</td>
+            <td>{{$ctrl.item.Invalid}}</td>
+        </tr>
+    </table>
+</div>

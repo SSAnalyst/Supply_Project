@@ -1,0 +1,75 @@
+﻿
+
+namespace <#= Namespace #>
+{
+using System; 
+
+// ------------
+//   Tables
+// ------------
+<# foreach(var table in Tables){
+	if(Skip.Contains(table.Name)){
+		continue ;
+	}
+#>
+    /// <summary>
+    /// Represents database table "<#= table.Name #>"
+    /// </summary>
+    [PetaPoco.TableName("<#= table.Name #>")]
+<# if(!string.IsNullOrEmpty(table.PrimaryKey)){#>
+    [PetaPoco.PrimaryKey("<#= table.PrimaryKey #>", AutoIncrement = <#= table.AutoIncrement?"true":"false" #>)]
+<# } #>
+    public partial class <#= GetClassName(table.Name) #> : HanaObject<<#= GetClassName(table.Name) #>> 
+    {
+<# if(!string.IsNullOrEmpty(table.PrimaryKey)){#>
+        
+        /// <summary>
+        /// Default Constructor for "<#= table.Name #>"
+        /// </summary>
+        public <#= GetClassName(table.Name) #> (){
+        }
+
+        /// <summary>
+        /// Constructor setting PrimaryKey for "<#= table.Name #>"
+        /// </summary>
+        public <#= GetClassName(table.Name) #> (<#= FriendlyTypes[table.PrimaryKeyType] #> id){
+            <#= GetClassName(GetColumnName(table.PrimaryKey)) #> = id;
+        }
+<# } #>
+<# foreach(var col in table.Cols) { #>
+
+        /// <summary>
+        /// Gets or sets Values for database column "<#=col.Name #>"
+        /// </summary>
+        [PetaPoco.Column("<#=  GetColumnName(col.Name, table.Name)#>")]
+        public <#= FriendlyTypes[col.Type] #><#if(col.IsNullable && col.Type != "String"){#>?<# } #> <#=GetClassName(GetColumnName(col.Name)) #> { get; set; }
+<# } #>
+    }
+<# } #>
+
+
+// ------------
+//   VIEWS
+// ------------
+<# foreach(var table in Views){#>
+
+    /// <summary>
+    /// Represents database view "<#= table.Name #>"
+    /// </summary>
+    [PetaPoco.TableName("<#= table.Name #>")]
+<#     if(!string.IsNullOrEmpty(table.PrimaryKey)){#>
+    [PetaPoco.PrimaryKey("<#= table.PrimaryKey #>", AutoIncrement = <#= table.AutoIncrement?"true":"false" #>)]
+<#     } #>
+    public partial class <#= GetClassName(table.Name) #> : HanaObject<<#= GetClassName(table.Name) #>> 
+    {
+<#     foreach(var col in table.Cols) { #>
+
+        /// <summary>
+        /// Gets or sets values from view column "<#= col.Name #>"
+        /// </summary>
+        [PetaPoco.Column(Name = "<#=  GetColumnName(col.Name,table.Name)#>"<#if (col.Type == "DateTime"){ #>, ForceToUtc = true<# }  #>)]
+        public <#= FriendlyTypes[col.Type] #><#if(col.IsNullable && col.Type != "String"){#>?<# } #> <#= GetClassName(GetColumnName(col.Name)) #> { get; set; }
+<#     } #>
+    }
+<# } #>
+}

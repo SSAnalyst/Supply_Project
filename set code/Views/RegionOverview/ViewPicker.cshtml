@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+}
+
+<h2 class='centered' ng-click="$ctrl.showPopover= !$ctrl.showPopover">
+   
+    {{$ctrl.currentView.Name}}
+    <small><i class="{{$root.Icons.arrowdown}}"></i></small>
+</h2>
+<div id="test"
+     class="popover fade bottom in"
+     ng-style="{display: $ctrl.showPopover?'block':'none'}" 
+     style="top: 60px;">
+    <div class="arrow" style="left: 50%;"></div>
+    <div style="width: 500px;">
+        <div class="col-sm-12">
+            <div class="list-group">
+                <a class="list-group-item"
+                   ng-repeat="view in $ctrl.views"
+                   ng-if="view.Name !== 'Reports'"
+                   ui-sref-active="active"
+                   ui-state="view.state"
+                   ui-state-params="view.params"
+                   ng-click="$ctrl.selectView(view);">{{view.Name}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-link pull-right" href="/_api/countryPeriod/{{$ctrl.date}}/downloadAll"><i ng-class="$root.Icons.download"></i> Download Combined Target Volume Report</a>

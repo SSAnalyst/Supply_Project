@@ -1,0 +1,178 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container main-container" ng-class="{'loading-state': $ctrl.finalizing}">
+    <div class="flex-box">
+        <div class="tilehead">
+            <h1>Anomaly Validation</h1>
+            <button class="btn btn-default closebtn"
+                    ng-click="$ctrl.finalize()"
+                    ng-disabled="!$ctrl.canFinalize()">
+                Submit <spinner show="{{$root.Icons.save}}" loading="$ctrl.finalizing"></spinner>
+            </button>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-9">
+                    <ul class="nav nav-pills">
+                        <li ui-sref-active="active"><a ui-sref="{view:'all'}">All</a></li>
+                        <li ui-sref-active="active" ng-show="$ctrl.countryPeriod.StatusId == 310"><a ui-sref="{view:'missingComment'}">Comment Missing</a></li>
+                        <li ui-sref-active="active"><a ui-sref="{view:'notAccepted'}">Potential Anomalies</a></li>
+
+                    </ul>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i ng-class="$root.Icons.search"></i></span>
+                        <input class="form-control" placeholder="Search ..." ng-model="$ctrl.search.$" ng-model-options="{debounce:200}" />
+                    </div>
+
+
+                </div>
+            </div>
+            <table class="table table-condensed table-striped table-hover" float-thead>
+                <thead>
+                    <tr>
+                        <th class="text-center" style="white-space: nowrap">
+
+                            Potential
+                            <br />Anomaly<distinct-filter field="AnomalyRegion"
+                                                          list="$ctrl.list"
+                                                          mapping="{ 0: 'No Anomaly', 1: 'Anomaly'}"
+                                                          hide-search="true"
+                                                          filter="$ctrl.search"></distinct-filter>
+                            
+                            <button class="btn btn-sm btn-link"
+                                    ng-show="$ctrl.countryPeriod.StatusId == 300"
+                                    ng-click="$ctrl.deselectAllPotentials()"
+                                    uib-tooltip="Remove all potential anomalies"
+                                    tooltip-append-to-body="true">
+                                <i ng-class="$ctrl.deselecting? $root.Icons.loading:$root.Icons.close"></i> all
+                            </button>
+
+                        </th>
+                        <th class="text-center" style="white-space: nowrap"
+                            ng-show="$ctrl.countryPeriod.StatusId!= 300">
+
+                            Is Anomaly
+
+                        </th>
+
+                        <th width="250px">Brick <distinct-filter field="Brick" list="$ctrl.list" filter="$ctrl.search"></distinct-filter></th>
+                        <th width="250px">Product <distinct-filter field="Sku" list="$ctrl.list" filter="$ctrl.search"></distinct-filter></th>
+                        <th style="width: 250px;">
+                            Measures
+                        </th>
+                        <th class="number">
+                            <span uib-tooltip="Moving Annual Total Units"
+                                  tooltip-append-to-body="true">
+                                Units MAT
+                            </span>
+                        </th>
+                        <th class="number">
+                            <span uib-tooltip="Time Series Anomaly"
+                                  tooltip-append-to-body="true">
+                                TSA
+
+                            </span>
+                        </th>
+                        <th class="number">
+                            <span uib-tooltip="Exceeds Standard Deviation Volume"
+                                  tooltip-append-to-body="true">
+                                Exc. SDVolume
+
+                            </span>
+                        </th>
+                        <th class="number">
+                            <span uib-tooltip="Exceeds Standard Deviation Value"
+                                  tooltip-append-to-body="true">
+                                Exc. SDValue
+
+                            </span>
+                        </th>
+                        <th class="number">
+                            <span uib-tooltip="Brick Moving Annual Total Growth"
+                                  tooltip-append-to-body="true">
+                                Growth
+                            </span>
+                        </th>
+                        <th class="number"><span uib-tooltip="Total MAT Value for Product in all Bricks"
+                                                 tooltip-append-to-body="true">MAT Values</span></th>
+                        <th width="250px" ng-show="$ctrl.countryPeriod.StatusId!= 300">Comment</th>
+                        <th class="text-center text-nowrap"
+                            ng-show="$ctrl.countryPeriod.StatusId!= 300">
+                            Approved <distinct-filter field="AnomalyApproved"
+                                                      list="$ctrl.list"
+                                                      mapping="{ 0: 'Not Approved', 1: 'Approved'}"
+                                                      hide-search="true"
+                                                      placement="bottom-right"
+                                                      filter="$ctrl.search"></distinct-filter><br />
+                            <button class="btn btn-sm btn-link" ng-show="$ctrl.permissions.canEditApproved" ng-click="$ctrl.approveAll()"><i ng-class="$root.Icons.check"></i> all</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in $ctrl.filtered | limitTo:$ctrl.pageSize:$ctrl.pageOffset" ui-sref-active="active">
+                        <td class="text-center">
+                            <check-box ng-model="item.AnomalyRegion"
+                                       checked-icon="$root.Icons.anomaly"
+                                       unchecked-icon="$root.Icons.noanomaly"
+                                       ng-disabled="!$ctrl.permissions.canEditAnomaly|| item.AnomalyApproved"
+                                       ng-change="$ctrl.update(item,'AnomalyRegion')"></check-box>
+                        </td>
+                        <td class="text-center" ng-show="$ctrl.countryPeriod.StatusId!= 300">
+                            <check-box ng-model="item.AnomalyCountry"
+                                       checked-icon="$root.Icons.anomaly"
+                                       unchecked-icon="$root.Icons.noanomaly"
+                                       ng-disabled="!$ctrl.permissions.canEditCountryAnomaly || item.AnomalyApproved"
+                                       ng-change="$ctrl.update(item,'AnomalyCountry')"></check-box>
+                        </td>
+                        <td><a ui-sref=".detail({id: item.MarketDemandBrickUuid})">{{::item.Brick}}</a></td>
+                        <td>{{::item.Sku}}</td>
+                        <td class="number">
+                            <am-chart data="item.values"
+                                      options="$ctrl.chartOptions"
+                                      width="250px"
+                                      height="40px"></am-chart>
+                        </td>
+                        <td class="number">{{::item.UnitMat |number}}</td>
+                        <td class="number">{{(item.C1|number) ||'-'}}</td>
+                        <td class="number">{{(item.C2|number) ||'-'}}</td>
+                        <td class="number">{{(item.C3|number:0) ||'-'}}</td>
+                        <td class="number">{{(item.C4|percent) ||'-'}}</td>
+                        <td class="number">{{::item.ValueMatBrick|number}}</td>
+                        <td ng-show="$ctrl.countryPeriod.StatusId!= 300">
+                            {{item.AnomalyComment}}
+                            <comment ng-model="item.AnomalyComment"
+                                     ng-hide="!$ctrl.permissions.canEditComment || item.AnomalyApproved"
+                                     ng-change="$ctrl.update(item,'AnomalyComment')"
+                                     data-mandatory="item.AnomalyRegion != item.AnomalyCountry "></comment>
+                        </td>
+                        <td class="text-center" ng-show="$ctrl.countryPeriod.StatusId!= 300">
+                            <check-box ng-model="item.AnomalyApproved"
+                                       ng-disabled="!$ctrl.permissions.canEditApproved"
+                                       ng-change="$ctrl.update(item,'AnomalyApproved')"
+                                       ></check-box>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination
+                total-items="$ctrl.filtered.length"
+                ng-model="$ctrl.page"
+                ng-change="$ctrl.pageChanged()"
+                max-size="20"
+                class="pagination-sm"
+                boundary-link-numbers="true"
+                previous-text="&lsaquo;"
+                next-text="&rsaquo;"
+                first-text="&laquo;"
+                last-text="&raquo;"
+                items-per-page="$ctrl.pageSize"></ul>
+        </div>
+    </div>
+
+</div>

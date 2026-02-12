@@ -1,0 +1,200 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ApiBrowser</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body ng-app="apibrowser">
+    <app></app>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+
+    <script type="text/ng-template" id="app.html">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Url: <input ng-model="$ctrl.queryObject.url" class="form-control" />
+                        QueryString: <input ng-model="$ctrl.queryObject.queryString" class="form-control" />
+
+                        <button ng-click="$ctrl.fetchItems()" class="btn btn-primary">Fetch</button>
+                    </div>
+                    <div class="col-sm-6">
+                        ID: <input ng-model="$ctrl.id" class="form-control" />
+                        <div class="btn" ng-class="field.hidden?'btn-default':'btn-primary'" ng-repeat="field in $ctrl.fields" ng-click="field.hidden=!field.hidden">{{field.Name}}</div>
+                    </div>
+                </div>
+
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th ng-repeat="field in $ctrl.fields|filter:{hidden:false}">{{field.Name}} </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="item in $ctrl.items">
+                        <td ng-repeat="field in $ctrl.fields|filter:{hidden:false}"><input ng-model="item[field.Name]" ng-change="$ctrl.updateItem($parent.$index,field)" class="form-control" /></td>
+                        <td><button ng-click="$ctrl.removeItem($index)" class="btn btn-danger btn-block">remove</button></td>
+                    </tr>
+                    <tfoot>
+                        <tr ng-show="$ctrl.fields.length >0">
+                            <td ng-repeat="field in $ctrl.fields|filter:{hidden:false}"><input ng-model="$ctrl.newItem[field.Name]" class="form-control" /></td>
+                            <td><button ng-click="$ctrl.addItem()" class="btn btn-success btn-block">add</button></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-sm-2">
+                <table class="table">
+                    <tr ng-repeat="message in $ctrl.log">
+                        <td>{{message.TimeStamp|date:"HH:mm:ss"}}</td>
+                        <td>{{message.Message}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+    </script>
+
+    <script type="text/javascript">
+    angular.module("apibrowser", [])
+        .component("app",
+            {
+                templateUrl: "app.html",
+                controller: ["$http","$window", Controller]
+            });
+    function Controller($http, $window) {
+        var vm = this;
+        vm.fetchItems = fetchItems;
+        vm.updateItem = updateItem;
+        vm.removeItem = removeItem;
+        vm.addItem = addItem;
+        vm.queryObject = {
+            queryString: "",
+            url: ""
+        };
+        vm.id = "";
+        vm.fields = [];
+        vm.items = [];
+        vm.log = [];
+        vm.newItem = {};
+        vm.writeLocalStorage = writeLocalStorage;
+        vm.$onInit = function() {
+            vm.queryObject = readLocalStorage();
+        }
+
+        function readLocalStorage() {
+            var value = $window.localStorage.getItem("ApiBrowserHistory");
+            if (value && value != "undefined" && value != "null") {
+                return JSON.parse(value);
+            }
+            return {
+                queryString: "",
+                url: ""
+            };
+        }
+        function writeLocalStorage() {
+
+            var value = JSON.stringify(vm.queryObject);
+
+            $window.localStorage.setItem("ApiBrowserHistory", value);
+        }
+        vm.defaulthiddenFields = ["CreatedBy", "CreatedOn", "ChangedBy", "ChangedOn"];
+
+        function log(message) {
+            vm.log.push({
+                TimeStamp: new Date(),
+                Message: message
+            });
+        }
+        function getID() {
+            var id = vm.url.split("/");
+            id = id[id.length - 1].toLowerCase();
+            vm.fields.forEach(function(field) {
+                var lowerField = field.Name.toLowerCase();
+                if (lowerField === id + "id" || lowerField === id + "uuid") {
+                    vm.id = field.Name;
+                }
+            });
+        }
+
+
+        function fetchItems() {
+
+            var url = vm.queryObject.url + "?" + vm.queryObject.queryString;
+            log("Fetching items from " + url);
+            writeLocalStorage();
+            return $http.get(url).then(function(data) {
+                var items = data.data.results;
+                if (items.length > 0) {
+                    var fields = Object.keys(items[0]);
+                }
+                vm.items = items;
+                vm.fields = fields.map(function(field) {
+                    var fieldObject = {
+                        Name: field,
+                        Type: typeof items[0][field],
+                        hidden:vm.defaulthiddenFields.indexOf(field)>=0
+                    }
+                    return fieldObject;
+                });
+                getID();
+                log(items.length + " Items fetched containing " + fields.length + " Fields");
+                return data;
+            },  function () {
+                log("Error in Fetching");
+            });
+
+        }
+        function updateItem(index, field) {
+
+            var item = vm.items[index];
+            var id = item[vm.id];
+            var obj = {};
+            obj[field.Name] = item[field.Name];
+            log("Statring update of field "+field.Name+ " in item with ID "+id);
+            return $http.patch(vm.queryObject.url + "/" + id + "", obj).then(function() {
+                log("Update complete");
+            }, function() {
+                log("Error in Update");
+            });
+
+        }
+        function removeItem(index) {
+
+            var id = vm.items[index][vm.id];
+            log("Deleting item with id " + id);
+            return $http.delete(vm.queryObject.url + "/" + id + "").then(function() {
+                vm.items.splice(index,1);
+                log("Deletion complete");
+            }, function () {
+                log("Error in Deletion");
+            });
+        }
+
+        function addItem() {
+            log("Starting adding of new Item");
+            $http.post(vm.queryObject.url, vm.newItem).then(function(data) {
+                    vm.items.push(data.data);
+                    log("Adding Complete");
+                    vm.newItem = {};
+                },
+                function() {
+                    log("Error in adding");
+                });
+        }
+    }
+
+    </script>
+</body>
+</html>

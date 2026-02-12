@@ -1,0 +1,76 @@
+﻿
+@{
+    Layout = null;
+}
+<h1 class="top">
+    {{$ctrl.user.ADUser.Title}}<img class="userimg" ng-src="/Set/UserImage?cwid={{$ctrl.user.UserCwid}}" />
+    <a class="closebtn" ui-sref="^"><i ng-class="$root.Icons.close"></i></a>
+</h1>
+<div class="content">
+
+    <table class="table">
+        <tr>
+            <td>CWID</td>
+            <td>{{$ctrl.user.UserCwid}}</td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td>{{$ctrl.user.DisplayName}}</td>
+        </tr>
+        <tr>
+            <td>AD Email</td>
+            <td>{{$ctrl.user.ADUser.Email}}</td>
+        </tr>
+        <tr>
+            <td>SET Email</td>
+            <td>
+                <input class="form-control"
+                       ng-model="$ctrl.user.EmailAddress"
+                       ng-model-options="{debounce: 300}"
+                       ng-change="$ctrl.update('EmailAddress', $ctrl.user)"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Email Notification</td>
+            <td>
+                <check-box 
+                       ng-model="$ctrl.user.EnableNotification"
+                       ng-change="$ctrl.update('EnableNotification', $ctrl.user)" />
+            </td>
+        </tr>
+
+    </table>
+
+    <h3>Roles</h3>
+    <div class="flex-container">
+        <div class="list-group" style="width:49%">
+            <a class="list-group-item" ng-repeat="role in $ctrl.user.Roles" ng-click="$ctrl.removeRole(role)">
+                <spinner class="pull-right" show="{{$root.Icons.remove}}" loading="role.loading"></spinner>
+                {{role.RoleName}}
+
+            </a>
+        </div>
+        <div class="list-group" style="width:49%">
+            <a class="list-group-item" ng-repeat="role in $ctrl.roles|diff:$ctrl.user.Roles:'RoleId'" ng-click="$ctrl.addRole(role)">
+                <spinner class="pull-right" show="{{$root.Icons.add}}" loading="role.loading"></spinner>
+                {{role.RoleName}}
+
+            </a>
+        </div>
+    </div>
+    <h3>Countries</h3>
+    <div class="flex-container">
+        <div class="list-group" style="width:49%">
+            <a class="list-group-item" ng-repeat="country in $ctrl.user.Countries" ng-click="$ctrl.removeCountry(country)">
+                {{country.CountryName}}
+                <spinner loading="country.loading" class="pull-right" show="{{$root.Icons.remove}}"></spinner>
+            </a>
+        </div>
+        <div class="list-group" style="width:49%">
+            <a ng-click="$ctrl.addCountry(country)" class="list-group-item" ng-repeat="country in $ctrl.countries |diff:$ctrl.user.Countries:'CountryId' ">
+                {{country.CountryName}}
+                <spinner loading="country.loading" class="pull-right" show="{{$root.Icons.add}}"></spinner>
+            </a>
+        </div>
+    </div>
+</div>

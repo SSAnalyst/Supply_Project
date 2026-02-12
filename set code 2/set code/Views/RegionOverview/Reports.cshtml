@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container main-container">
+    <div class="flex-box">
+        <h2 class="tilehead">Reports</h2>
+        <div class="flex-grow">
+            <div class="col-sm-2">
+                <div ng-repeat="(di,dashboard) in $ctrl.reports">
+                    <h2 >{{dashboard.Name}}</h2>
+                    <div class="list-group">
+                        <a ui-sref="roReport({dashboard:di,report: ri})"
+                           ui-sref-active="active"
+                           class="list-group-item"
+                           ng-repeat="(ri,report) in dashboard.Reports">{{report.Name}}</a>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-sm-10" ui-view="report">
+            
+            </div>
+        </div>
+    </div>
+</div>

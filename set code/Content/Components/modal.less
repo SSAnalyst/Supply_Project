@@ -1,0 +1,109 @@
+﻿.modal {
+    background: rgba(0,0,0,.3);
+
+    .modal-content {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        border: 0;
+       
+        margin-top: 45px;
+        display:flex;
+    }
+
+    .modal-left {
+        min-width: 150px;
+        width: 150px;
+
+        position: relative;
+        color: white;
+
+        &.warning {
+            background: @brand-warning;
+
+            &:before {
+                content: '\E7BA';
+                font-family: "FabricMDL2Icons";
+                font-size: 80px;
+                position: absolute;
+                top: 50%;
+                margin-top: -70px;
+                left: 50%;
+                margin-left: -35px;
+            }
+        }
+
+        &.info {
+            background: @brand-info;
+
+            &:before {
+                content: '\E946';
+                font-family: "FabricMDL2Icons";
+                font-size: 80px;
+                position: absolute;
+                top: 50%;
+                margin-top: -70px;
+                left: 50%;
+                margin-left: -35px;
+                
+            }
+        }
+
+        &.success {
+            background: @brand-success;
+
+            &:before {
+                content: '\E930';
+                font-family: "FabricMDL2Icons";
+                font-size: 80px;
+                position: absolute;
+                top: 50%;
+                margin-top: -70px;
+                left: 50%;
+                margin-left: -35px;
+            }
+        }
+
+        &.error,&.danger {
+            background: @brand-danger;
+
+            &:before {
+                content: '\E783';
+                font-family: "FabricMDL2Icons";
+                font-size: 80px;
+                position: absolute;
+                top: 50%;
+                margin-top: -70px;
+                left: 50%;
+                margin-left: -35px;
+            }
+        }
+
+        &.primary {
+            background: @brand-primary;
+        }
+
+        i {
+            color: white;
+            font-size: 80px;
+            position: absolute;
+            top: 50%;
+            margin-top: -70px;
+            left: 50%;
+            margin-left: -35px;
+        }
+    }
+
+    .modal-right {
+
+        padding: 40px;
+        padding-bottom: 80px;
+        position: relative;
+
+        .modal-footer {
+            position: absolute;
+            bottom: 0;
+            border: 0;
+            width: 100%;
+            margin-left: -40px;
+        }
+    }
+}

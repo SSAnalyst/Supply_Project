@@ -1,0 +1,143 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container main-container" ng-class="{'loading-state': $ctrl.finalizing}">
+    <div class="flex-box">
+        <div class="tilehead">
+            <h1>Target Volume Extrapolation</h1>
+            <button class="btn btn-default closebtn"
+                    ng-click="$ctrl.finalize()"
+                    ng-disabled="!$ctrl.canFinalize()">
+                Submit <spinner show="{{$root.Icons.save}}" loading="$ctrl.finalizing"></spinner>
+                
+            </button>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-5">
+                    <ul class="nav nav-pills">
+                        <li ui-sref-active="active"><a ui-sref="({view:'all'})">All</a></li>
+                        <li ui-sref-active="active"><a ui-sref="({view:'exf'})">ExFactory</a></li>
+                        <li ui-sref-active="active"><a ui-sref="({view:'vpd'})">VPD</a></li>
+                        <li ui-sref-active="active"><a ui-sref="({view:'national'})">National</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <ul class="nav nav-pills">
+                        <li ng-click="$ctrl.numberscale.setCurrent(scale)" ng-class="{active: $ctrl.numberscale.Current == scale}" ng-repeat="scale in $ctrl.numberscale.Formats"><a >{{scale.Display}}</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-1"><a ng-show="$ctrl.canEdit && $ctrl.countryPeriod.StatusId == 500" class="btn btn-block btn-default" ui-sref="extrapolate.new"><i ng-class="$root.IconService.add"></i>&nbsp;Manual</a></div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i ng-class="$root.Icons.search"></i></span>
+                        <input class="form-control" placeholder="Search ..." ng-model="$ctrl.search.$" />
+                    </div>
+                </div>
+            </div>
+            <table class="table table-condensed table-hover table-striped" float-thead>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Source</th>
+                        <th class="number">Correction</th>
+                        <th class="number">
+                            <span uib-tooltip="Emergency Channel Quantity"
+                                  tooltip-append-to-body="true">
+                                Emergency Qty
+                            </span>
+                        </th>
+                        <th class="number">Growth <span class="text-nowrap">(in %)</span></th>
+                        <th class="number text-nowrap">{{$ctrl.months[0].value}}</th>
+                        <th class="number text-nowrap">{{$ctrl.months[1].value}}</th>
+                        <th class="number text-nowrap">{{$ctrl.months[2].value}}</th>
+                        <th class="number text-nowrap">{{$ctrl.months[3].value}}</th>
+                        <th class="number text-nowrap">{{$ctrl.months[4].value}}</th>
+                        <th class="number text-nowrap">{{$ctrl.months[5].value}}</th>
+                        <th class="number text-nowrap">{{$ctrl.months[6].value}} <i ng-class="$root.Icons.forecast"></i></th>
+                        <th class="number text-nowrap">{{$ctrl.months[7].value}} <i ng-class="$root.Icons.forecast"></i></th>
+                        <th class="number text-nowrap">{{$ctrl.months[8].value}} <i ng-class="$root.Icons.forecast"></i></th>
+                        <th class="number text-nowrap">{{$ctrl.months[9].value}} <i ng-class="$root.Icons.forecast"></i></th>
+                        <th class="number">Tolerance <span class="text-nowrap">(in %)</span></th>
+                        <th class="number">Target Volume</th>
+                        <th class="number" ng-show="$ctrl.countryPeriod.StatusId > 500">Proposal</th>
+                        <th class="text-center"  ng-show="$ctrl.countryPeriod.StatusId > 500">Ok <button class="btn btn-sm btn-link" ng-show="$ctrl.canEdit && $ctrl.countryPeriod.StatusId == 520" ng-click="$ctrl.approveAll()"><i ng-class="$root.Icons.check"></i> all</button></th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="item in $ctrl.list|filter: $ctrl.filter|filter: $ctrl.search"
+                    ui-sref-active="active" 
+                    ng-class="{'text-muted': !item.InScope}">
+
+                    <td class="text-nowrap"><a ui-sref=".detail({id: item.ForecastUuid})">{{item.BayerSkuName}}</a><sup ng-show="item.IsNew" class="text-muted">new</sup></td>
+                    <td class="text-nowrap">
+                        <div uib-dropdown>
+                            <datatype type="item.DataTypeId"></datatype> {{item.DataTypeName}}
+                            <i ng-click="" ng-show="item.Sources.length>1 && $ctrl.canEdit" uib-dropdown-toggle ng-class="$root.Icons.arrowdown"></i>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-repeat="source in item.Sources"><a ng-click="$ctrl.updateForecast(source.ForecastUuid)"><datatype type="source.DataTypeId"></datatype> {{source.DataTypeName}}</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="number">
+                        <input class="number form-control"
+                               style="width:50px"
+                               ng-model="item.CorrectionFactor"
+                               ng-blur="$ctrl.updateCorrection(item)"
+                             
+                               number="2"
+                               ng-show="item.DataTypeId == 2"
+                               ng-disabled="!$ctrl.canEdit|| $ctrl.countryPeriod.StatusId != 500" />
+                    </td>
+                    <td class="number">{{item.EmergencyChannelQuantity|numberscale}}</td>
+                    <td class="number">{{item.Growth|percent}}</td>
+
+
+
+                    <td class="number">{{item.Unit19|numberscale|number:0}}</td>
+                    <td class="number">{{item.Unit20|numberscale|number:0}}</td>
+                    <td class="number">{{item.Unit21|numberscale|number:0}}</td>
+                    <td class="number">{{item.Unit22|numberscale|number:0}}</td>
+                    <td class="number">{{item.Unit23|numberscale|number:0}}</td>
+                    <td class="number">{{item.Unit24|numberscale|number:0}}</td>
+
+                    <td class="number" ng-class="$ctrl.months[6].tvmonth?'bg-primary':'bg-info'">{{item.Fc1|numberscale|number:0}}</td>
+                    <td class="number" ng-class="$ctrl.months[7].tvmonth?'bg-primary':'bg-info'">{{item.Fc2|numberscale|number:0}}</td>
+                    <td class="number" ng-class="$ctrl.months[8].tvmonth?'bg-primary':'bg-info'">{{item.Fc3|numberscale|number:0}}</td>
+                    <td class="number" ng-class="$ctrl.months[9].tvmonth?'bg-primary':'bg-info'">{{item.Fc4|numberscale|number:0}}</td>
+                    <td class="number">
+                        <input class="number  form-control"
+                               style="width: 55px"
+                               ng-model="item.OperatingTolerance"
+                               percent="0"
+                               ng-show="item.DataTypeId !== 4"
+                               ng-change="$ctrl.Update(item, 'OperatingTolerance')"
+                               ng-disabled="!$ctrl.canEdit || $ctrl.countryPeriod.StatusId != 500" />
+
+                    </td>
+                    <td class="number">
+                       {{$ctrl.TargetVolume(item)|numberscale|number:0}}</td>
+                    <td class="number" ng-show="$ctrl.countryPeriod.StatusId > 500">
+                        <input ng-model="item.Proposal"
+                               class="number form-control"
+                               style="width: 70px; float: right"
+                               numberscale
+                               ng-change="$ctrl.Update(item, 'Proposal')"
+                               ng-disabled="!$ctrl.canEdit || ($ctrl.countryPeriod.StatusId != 510 && $ctrl.countryPeriod.StatusId != 520) || item.TargetVolumeApproved" />
+                        <comment ng-model="item.ProposalComment"
+                                 ng-change="$ctrl.Update(item, 'ProposalComment')"
+                                
+                                 ng-show="item.Proposal"
+                                 ng-disabled="!$ctrl.canEdit || ($ctrl.countryPeriod.StatusId != 510 && $ctrl.countryPeriod.StatusId != 520) || item.TargetVolumeApproved"></comment>
+                    </td>
+                    <td class="text-center" ng-show="$ctrl.countryPeriod.StatusId > 500">
+                        <check-box ng-model="item.TargetVolumeApproved"
+                                   ng-change="$ctrl.Update(item, 'TargetVolumeApproved')"
+                                   ng-disabled="!$ctrl.canEdit || $ctrl.countryPeriod.StatusId != 520"></check-box>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

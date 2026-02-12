@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div ng-show="$ctrl.countryPeriod.StatusId <400">
+    <div class="info-field">
+        <i class="{{$root.Icons.info}}"></i>&nbsp;Not yet started
+    </div>
+</div>
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId > 100 && !$ctrl.countryPeriod.BrickFileName">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Skipped
+</div>
+<div ng-show="$ctrl.countryPeriod.StatusId >= 400 && $ctrl.countryPeriod.BrickFileName">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th class="number">Total</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Items</td>
+            <td class="number">{{$ctrl.Info.ItemCount}}</td>
+        </tr>
+        <tr>
+            <td>SKUs</td>
+            <td class="number">{{$ctrl.Info.SkuCount}}</td>
+        </tr>
+        <tr>
+            <td>Bricks</td>
+            <td class="number">{{$ctrl.Info.BrickCount}}</td>
+        </tr>
+        <tr>
+            <td>Comments</td>
+            <td class="number">{{$ctrl.Info.CommentCount}}</td>
+        </tr>
+        <tr>
+            <td>Approved</td>
+            <td class="number">{{$ctrl.Info.ApprovedCount}}</td>
+        </tr>
+    </table>
+</div>
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 400">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for regional market demand manager to check calculated monthly limits
+
+</div>
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 410">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for country coordinator to check calculation and propose monthly limits.
+
+</div>
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 420">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for regional market demand manager to check proposed monthly limits.
+</div>

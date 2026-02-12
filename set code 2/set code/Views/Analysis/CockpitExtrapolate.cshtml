@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<div ng-show="$ctrl.countryPeriod.StatusId <500">
+    <div class="info-field">
+        <i class="{{$root.Icons.info}}"></i>&nbsp;Not yet started
+    </div>
+</div>
+<div ng-show="$ctrl.countryPeriod.StatusId >= 500">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th class="number">Total</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Items</td>
+            <td class="number">{{$ctrl.Info.ItemCount}}</td>
+        </tr>
+        <tr>
+            <td>Approved</td>
+            <td class="number">{{$ctrl.Info.ApprovedCount}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 500">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for regional market demand manager to check proposed target volume.
+
+
+</div>
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 510">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for country coordinator to validate and propose target volume.
+
+
+</div>
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 520">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for regional market demand manager to validate and approve proposed target volume.
+
+
+</div>
+
+<a class="btn btn-block btn-link" ng-show="$ctrl.countryPeriod.StatusId == 600" href="/_api/countryPeriod/{{$ctrl.countryPeriod.CountryPeriodUuid}}/download"><i ng-class="$root.Icons.download"></i> Download Target Volume Report</a>
+
+<a class="btn btn-block btn-link" ng-show="$ctrl.countryPeriod.StatusId == 600" href="/_api/countryPeriod/{{$ctrl.countryPeriod.PeriodId}}/downloadAll"><i ng-class="$root.Icons.download"></i> Download Combined Target Volume Report</a>
+
+<a class="btn btn-block btn-link" 
+   ng-show="$ctrl.countryPeriod.StatusId == 600" 
+   ui-sref="roReport({date: $ctrl.countryPeriod.PeriodId, countryId: $ctrl.countryPeriod.CountryId, dashboard:'KPI', report: 'KLM'})"><i ng-class="$root.Icons.report"></i>View Reports</a>
+

@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = null;
+}
+
+<h1 class="top">
+    {{$ctrl.item.Brick}}, {{$ctrl.item.Sku}}<a class="closebtn" ui-sref="^"><i class="{{$root.Icons.close}}"></i></a>
+</h1>
+<div class="content">
+    <h2>VPD by Month</h2>
+    <am-chart data="$ctrl.item.values" options="$ctrl.chartOptions" id="calculatedVPDChart" width="443px" height="200px"></am-chart>
+    <h2>Monthly Limit</h2>
+    <table class="table">
+        <tr>
+            <td>Limit Calculated</td>
+            <td style="width: 250px" class="number">
+                {{$ctrl.item.LimitCalc|number: 0}}
+            </td>
+        </tr>
+        <tr  ng-show="$ctrl.countryPeriod.StatusId > 400 && $ctrl.item.LimitCalc">
+            <td>Limit Proposed</td>
+            <td style="width: 250px">
+                <input class="form-control number"
+                       ng-change="$ctrl.update($ctrl.item,'LimitCountry')"
+                       ng-model="$ctrl.item.LimitCountry"
+                       ng-model-options="{debounce: 300}"
+                       number
+                       ng-disabled="!$ctrl.canEdit || $ctrl.countryPeriod.StatusId !== 410" />
+            </td>
+        </tr>
+        <tr ng-show="$ctrl.countryPeriod.StatusId > 400  && $ctrl.item.LimitCalc">
+            <td>Comment</td>
+            <td style="width: 250px">
+                {{$ctrl.item.LimitComment}}
+                <comment ng-model="$ctrl.item.LimitComment"
+                   
+                         ng-show="($ctrl.item.LimitCountry && $ctrl.item.LimitRegion != $ctrl.item.LimitCountry) || item.LimitComment"
+                         ng-change="$ctrl.update($ctrl.item, 'LimitComment')"
+                         ng-disabled="!$ctrl.canEdit || $ctrl.countryPeriod.StatusId != 410"></comment>
+            </td>
+        </tr>
+        <tr  ng-show="$ctrl.countryPeriod.StatusId > 410 && $ctrl.item.LimitCountry">
+            <td>Approved</td>
+            <td class="text-center">
+                <check-box ng-change="$ctrl.approve($ctrl.item)"
+                           ng-model="$ctrl.item.LimitApproved" 
+                           ng-disabled="!$ctrl.canEdit || $ctrl.countryPeriod.StatusId != 420">Approved</check-box>
+            </td>
+        </tr>
+    </table>
+   
+
+    <h2>Monthly Values</h2>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th style="width: 80px;" class="number">Original</th>
+                <th style="width: 80px;" class="number">Measure</th>
+                <th style="width: 70px;" class="text-center">Limited</th>
+
+            </tr>
+        </thead>
+        <tr ng-repeat="month in $ctrl.item.values">
+            <td>{{month.Name}}</td>
+            <td class="number">{{month.value|number}}</td>
+            <td class="number">{{month.value|limit:$ctrl.item.LimitRegion|number}}</td>
+            <td class="text-center"><i class="glyphicon" ng-class="{'{{$root.Icons.good}}': $ctrl.item.LimitRegion && month.value> $ctrl.item.LimitRegion}"></i></td>
+
+        </tr>
+    </table>
+</div>

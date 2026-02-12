@@ -1,0 +1,151 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="info-field"
+     ng-show="!$root.user.canWrite('country.{0}.100'.Format($root.$stateParams.country))
+     && (!$ctrl.countryPeriod.BrickFileName && !$ctrl.countryPeriod.NationalFileName)"><i class="{{$root.Icons.info}}"></i>&nbsp;Not yet started</div>
+
+<div ng-hide="!$root.user.canWrite('country.{0}.100'.Format($root.$stateParams.country))
+     && (!$ctrl.countryPeriod.BrickFileName && !$ctrl.countryPeriod.NationalFileName)">
+    <table class="table  table-condensed">
+        <thead>
+        <tr>
+            <th colspan="2">
+                <i class="{{$root.Icons.country}}"></i>&nbsp;National Data&nbsp;
+                <a href="" ng-click="$ctrl.deleteNational()"  ng-show="$ctrl.countryPeriod.StatusId == 100 && $ctrl.countryPeriod.NationalFileName && $root.user.canWrite('country.'+$ctrl.countryPeriod.CountryId+'.100')"><spinner show="{{$root.Icons.remove}}" loading="$ctrl.deletingNational"></spinner></a>
+                <a uib-tooltip="Download National Template Excel File" href="/Content/ExcelTemplates/NationalTemplate.xlsx" ng-class="$root.Icons.download" class="pull-right"></a>
+            </th>
+        </tr>
+        </thead>
+        <tbody ng-show="$ctrl.countryPeriod.NationalFileName">
+        <tr>
+            <td style="width: 80px;">File</td>
+            <td>{{$ctrl.countryPeriod.NationalFileName}}</td>
+        </tr>
+        <tr>
+            <td>Items</td>
+            <td>{{$ctrl.countryPeriod.NationalCount}} </td>
+
+        </tr>
+        <tr>
+            <td>SKUs</td>
+            <td>{{$ctrl.countryPeriod.NationalSkuCount}} </td>
+
+        </tr>
+        <tr>
+            <td>Uploaded</td>
+            <td>{{$ctrl.countryPeriod.NationalUploadDate |date:'MMMM dd, yyyy | HH:mm'}}</td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+    <div ng-model="$ctrl.nationalFiles"
+         ngf-drop
+         ngf-select
+         ngf-drag-over-class="'dragover'"
+         ngf-multiple="false"
+         ngf-allow-dir="false"
+         class="drop-box"
+         ng-show="!$ctrl.uploading['National'].loading
+        && $ctrl.countryPeriod.StatusId ==100
+        && $root.user.canWrite('country.{0}.100'.Format($root.$stateParams.country))">
+        <span ng-shoW="!$ctrl.countryPeriod.NationalFileName">Drop National Excel File here<br />or<br /></span>click to upload
+    </div>
+
+    <span ng-show="$ctrl.uploading['National'].loading && $ctrl.uploading['National'].percent >= 100">
+        <spinner loading="$ctrl.uploading['National'].loading" show=""></spinner> Processing File
+    </span>
+    <div ng-show="$ctrl.uploading['National'].percent >=0 && $ctrl.uploading['National'].percent < 100">
+        <span><i class="{{$root.Icons.info}}"></i>Uploading: {{$ctrl.uploading['National'].percent}}% Complete</span>
+        <uib-progressbar value="$ctrl.uploading['National'].percent"></uib-progressbar>
+
+    </div>
+
+    <div ng-show="$ctrl.service.data.length" class="alert alert-info">
+        {{$ctrl.service.data.length}} datasets loaded
+    </div>
+
+
+
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th colspan="2">
+                <i class="{{$root.Icons.brick}}"></i>&nbsp;Brick Data&nbsp;
+                <a href="" ng-click="$ctrl.deleteBrick()" ng-show="$ctrl.countryPeriod.StatusId == 100 && $ctrl.countryPeriod.BrickFileName && $root.user.canWrite('country.'+$ctrl.countryPeriod.CountryId+'.100')"><i ng-class="$root.Icons.remove"></i></a>
+                <a uib-tooltip="Download Brick Template Excel File" href="/Content/ExcelTemplates/BrickTemplate.xlsx" ng-class="$root.Icons.download" class="pull-right"></a>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody ng-show="$ctrl.countryPeriod.BrickFileName">
+
+
+        <tr>
+            <td style="width: 80px;">File</td>
+            <td>{{$ctrl.countryPeriod.BrickFileName}}</td>
+        </tr>
+        <tr>
+            <td>Items</td>
+            <td>{{$ctrl.countryPeriod.BrickCount}}</td>
+        </tr>
+        <tr>
+            <td>SKUs</td>
+            <td>{{$ctrl.countryPeriod.BrickSkuCount}} </td>
+        </tr>
+        <tr>
+            <td>Bricks</td>
+            <td>{{$ctrl.countryPeriod.BrickBrickCount}} </td>
+        </tr>
+        <tr>
+            <td>Uploaded</td>
+            <td>{{$ctrl.countryPeriod.BrickUploadDate |date:'MMMM dd, yyyy | HH:mm'}}</td>
+        </tr>
+
+
+
+
+        </tbody>
+    </table>
+    <div ng-model="$ctrl.brickFiles" class="drop-box"
+         ngf-drop
+         ngf-select
+         ngf-drag-over-class="'dragover'"
+         ngf-multiple="true"
+         ngf-allow-dir="true"
+         ng-show="!$ctrl.uploading['Brick'].loading
+        && $ctrl.countryPeriod.StatusId ==100
+        && $root.user.canWrite('country.{0}.100'.Format($root.$stateParams.country))">
+        <span ng-show="!$ctrl.countryPeriod.BrickFileName">
+            Drop Brick Excel File here<br />or<br />
+        </span>    click to upload
+    </div>
+    <span ng-show="$ctrl.uploading['Brick'].loading && $ctrl.uploading['Brick'].percent >= 100">
+        <spinner loading="$ctrl.uploading['Brick'].loading" show=""></spinner> Processing File
+    </span>
+    <div ng-show="$ctrl.uploading['Brick'].percent >= 0 && $ctrl.uploading['Brick'].percent< 100">
+        <span><i class="{{$root.Icons.info}}"></i>Uploading: {{$ctrl.uploading['Brick'].percent}}% Complete</span>
+        <uib-progressbar value="$ctrl.uploading['Brick'].percent"></uib-progressbar>
+    </div>
+    <div ng-show="$ctrl.countryPeriod.AlternatePeriodId && $ctrl.countryPeriod.AlternatePeriodId != $ctrl.countryPeriod.PeriodId">
+        <i ng-class="$root.Icons.calendar"></i>&nbsp;Reference Date is {{$ctrl.countryPeriod.AlternatePeriodId|moment:"MMM YYYY":"YYYYMM"}}
+    </div>
+
+</div>
+
+
+
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 100">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for country coordinator to maintain SKUs, Emergency Channel quantites and mark products in or out of scope.
+</div>
+
+<div class="info-field" ng-show="$ctrl.countryPeriod.StatusId == 110">
+    <i class="{{$root.Icons.info}}"></i>&nbsp;Waiting for regional market demand manager to check and adjust in scope / out of scope settings.
+</div>

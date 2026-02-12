@@ -1,0 +1,16 @@
+﻿<div class="modal-left {{Icon || 'info'}}">
+
+</div>
+<div class="modal-right">
+
+
+    <h1 class="modal-title">{{Title}}</h1>
+
+    <div ng-bind-html="Body">
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" ng-click="$dismiss(false)" class="btn btn-default" data-dismiss="modal">{{CloseText ||"Cancel"}}</button>
+        <button type="button" ng-click="$close(true)" class="btn btn-{{Icon || 'info'}}">{{SaveText|| "Confirm"}}</button>
+    </div>
+</div>

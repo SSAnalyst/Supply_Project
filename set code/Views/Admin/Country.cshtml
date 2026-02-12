@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<div class="flex-container">
+    <div class="flex-box">
+        <div class="tilehead">
+            <h1>Country Adminsitration</h1>
+        </div>
+        <div class="content">
+            <div></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="country in $ctrl.list">
+                    <td><a ui-sref="admin.country.detail({id: country.CountryId})">{{country.CountryId}}</a></td>
+                    <td>{{country.CountryName}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

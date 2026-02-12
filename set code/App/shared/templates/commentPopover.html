@@ -1,0 +1,19 @@
+﻿<div>
+    <textarea ng-if="!options"
+              ng-model="ngModel"
+              class="form-control"
+              style="width: 300px; height: 100px"
+              ng-change="change(ngModel)"
+              ng-model-options="{debounce:300}"
+              ng-disabled="ngDisabled"></textarea>
+
+    <div class="comment list-group" ng-if="options"  ng-class="{disabled:ngDisabled}">
+        <a ng-repeat="comment in options"
+           class="list-group-item"
+           ng-click="change(comment.CommentText)" 
+           ng-class="{active: comment.CommentText == ngModel}" >
+            {{comment.CommentText}}
+        </a>
+    </div>
+    {{text}}
+</div>

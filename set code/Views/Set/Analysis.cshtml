@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Analysis";
+    Layout = null;
+}
+
+
+<div class="flex-container">
+    <div class="flex-box countryPicker" ui-view="picker">
+        <i class="glyphicon glyphicon-menu-down"></i>
+        <h2 set-popover c-content="#test" data-placement="bottom" data-trigger="click">Germany <br /><small>January 2014</small> </h2>
+
+    </div>
+    <div class="flex-box breadcrumbs" ui-view="breadcrumbs">
+        <h2 class="centered">
+            <a ui-sref="analysis.cockpit">Cockpit</a>
+        </h2>
+
+    </div>
+    <div id="test" class="hidden">
+
+        <div style="width: 500px;">
+            <div class="col-sm-6">
+                <ul class="list-group">
+                    <li class="list-group-item">Germany</li>
+                    <li class="list-group-item">Poland</li>
+                    <li class="list-group-item">Turkey</li>
+                    <li class="list-group-item">France</li>
+                    <li class="list-group-item">Britain</li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <ul class="list-group">
+                    <li class="list-group-item">Januar 2017</li>
+                    <li class="list-group-item">----</li>
+                    <li class="list-group-item">December 2016</li>
+                    <li class="list-group-item">November 2016</li>
+                    <li class="list-group-item">October 2016</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div ui-view="main"></div>
+<div ui-view="side" id="side"></div>

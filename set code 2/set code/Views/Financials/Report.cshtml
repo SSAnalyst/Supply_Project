@@ -1,0 +1,89 @@
+﻿
+@{
+    Layout = null;
+}
+<div>
+
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th colspan="3" class="border-left">Year</th>
+                        <th colspan="3" class="border-left">Year to date</th>
+                        <th colspan="3" class=" border-left">Single Month</th>
+                    </tr>
+                    <tr>
+                        <th>Country</th>
+                        <th class="number border-left">Actual Year</th>
+                        <th class="number">vs. Previous Year</th>
+                        <th class="number">vs. Budget</th>
+                        <th class="number border-left">Actual Year</th>
+                        <th class="number">vs. Previous Year</th>
+                        <th class="number">vs. Budget</th>
+                        <th class="number border-left">Actual Year</th>
+                        <th class="number">vs. Previous Year</th>
+                        <th class="number">vs. Budget</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="cluster in $ctrl.reports|orderBy:'CountryCluster'">
+                    <tr class="sum-row">
+                        <td>
+                            {{cluster.CountryCluster}}
+                            <span class="pull-right"
+                                  ng-click="cluster.opened = !cluster.opened"
+                                  ng-show="cluster.Reports.length > 1">
+                                <span ng-show="!cluster.opened" class="ms-Icon ms-Icon--ChevronDown"></span>
+                                <span ng-show="cluster.opened" class="ms-Icon ms-Icon--ChevronUp"></span>
+                            </span>
+                        </td>
+                        <td class="number border-left">{{cluster.ActualYear.Act|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{cluster.ActualYear.VsPy|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{cluster.ActualYear.VsBud|numberPrefix:$root.currentPrefix:0}}</td>
+
+                        <td class="number border-left">{{cluster.YTD.Act|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{cluster.YTD.VsPy|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{cluster.YTD.VsBud|numberPrefix:$root.currentPrefix:0}}</td>
+
+                        <td class="number border-left">{{cluster.ActualMonth.Act|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{cluster.ActualMonth.VsPy|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{cluster.ActualMonth.VsBud|numberPrefix:$root.currentPrefix:0}}</td>
+
+
+
+                    </tr>
+                    <tr ng-repeat="report in cluster.Reports"
+                        ng-show="cluster.Reports.length>1 && cluster.opened">
+                        <td>&nbsp;&nbsp;{{report.ActualYear.CountryName}}</td>
+                        <td class="number border-left">{{report.ActualYear.Act|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{report.ActualYear.VsPy|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{report.ActualYear.VsBud|numberPrefix:$root.currentPrefix:0}}</td>
+
+                        <td class="number border-left">{{report.YTD.Act|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{report.YTD.VsPy|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{report.YTD.VsBud|numberPrefix:$root.currentPrefix:0}}</td>
+
+                        <td class="number border-left">{{report.ActualMonth.Act|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{report.ActualMonth.VsPy|numberPrefix:$root.currentPrefix:0}}</td>
+                        <td class="number">{{report.ActualMonth.VsBud|numberPrefix:$root.currentPrefix:0}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr style="border-top: 4px double #ccc">
+                        <th>Total</th>
+                        <th class="number border-left">{{$ctrl.reports|sum:'ActualYear.Act':0:$root.currentPrefix}}</th>
+                        <th class="number">{{$ctrl.reports|sum:'ActualYear.VsPy':0:$root.currentPrefix}}</th>
+                        <th class="number">{{$ctrl.reports|sum:'ActualYear.VsBud':0:$root.currentPrefix}}</th>
+
+                        <th class="number border-left">{{$ctrl.reports|sum:'YTD.Act':0:$root.currentPrefix}}</th>
+                        <th class="number">{{$ctrl.reports|sum:'YTD.VsPy':0:$root.currentPrefix}}</th>
+                        <th class="number">{{$ctrl.reports|sum:'YTD.VsBud':0:$root.currentPrefix}}</th>
+
+                        <th class="number border-left">{{$ctrl.reports|sum:'ActualMonth.Act':0:$root.currentPrefix}}</th>
+                        <th class="number">{{$ctrl.reports|sum:'ActualMonth.VsPy':0:$root.currentPrefix}}</th>
+                        <th class="number">{{$ctrl.reports|sum:'ActualMonth.VsBud':0:$root.currentPrefix}}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>

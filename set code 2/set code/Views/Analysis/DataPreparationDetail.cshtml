@@ -1,0 +1,81 @@
+﻿
+@{
+    Layout = null;
+}
+
+<h1 class="top">
+    <i ng-class="{ '{{$root.Icons.country}}': $ctrl.item.DataTypeId == 2,' {{$root.Icons.brick}} ': $ctrl.item.DataTypeId == 1}"></i> {{$ctrl.item.Sku}}<sup ng-show="$ctrl.item.IsNew"><small style="color: white;">new</small></sup> <img src="/Images/Logo_Cross_20_Wht.png" style="height: 20px;" ng-show="$ctrl.item.IsBayer" />
+    <a class="closebtn" ui-sref="^"><i class="{{$root.Icons.close}}"></i></a>
+
+</h1>
+<div class="content">
+    <h2>Values</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="number">Value</th>
+            </tr>
+        </thead>
+        <tr ng-show="$ctrl.item.IsBayer">
+            <td>
+                <span uib-tooltip="Bayer SKU"
+                      tooltip-append-to-body="true">
+                    Product
+                </span>
+            </td>
+            <td>
+                <input class="form-control"
+                       ng-model="$ctrl.item.BayerSkuUuid"
+                       uib-typeahead="sku.BayerSkuUuid as sku.BayerSkuName for sku in $ctrl.skus | filter:{BayerSkuName:$viewValue}"
+                       ng-if="$ctrl.item.IsBayer"
+                       typeahead-min-length="0"
+                       ng-disabled="!$ctrl.canEdit"
+                       typeahead-editable="false"
+                       typeahead-on-select="$ctrl.Update($ctrl.item, 'BayerSkuUuid')"
+                       typeahead-input-formatter="$ctrl.formatInput($model)" />
+            </td>
+
+        </tr>
+        <tr>
+            <td>In Scope</td>
+            <td class="text-center">
+                <check-box ng-model="$ctrl.item.InScope"
+                           ng-click="$ctrl.Update($ctrl.item, 'InScope')"
+                           ng-disabled="!$ctrl.canEdit"></check-box>
+            </td>
+        </tr>
+        <tr ng-show="$ctrl.item.IsBayer">
+            <td>
+                <span uib-tooltip="Emergency Channel Quantity"
+                      tooltip-append-to-body="true">Emergency Qty</span>
+            </td>
+            <td>
+                <input ng-change="$ctrl.Update($ctrl.item, 'EmergencyChannelQuantity')"
+                       class="form-control number"
+                       ng-model="$ctrl.item.EmergencyChannelQuantity"
+                       ng-disabled="!$ctrl.canEdit" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span uib-tooltip="Moving Annual Total Units"
+                      tooltip-append-to-body="true">
+                    Units MAT
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.UnitMat|number}}</td>
+        </tr>
+        <tr>
+            <td>
+                <span uib-tooltip="Moving Annual Total Values"
+                      tooltip-append-to-body="true">
+                    Values MAT
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.ValueMat|number}}</td>
+        </tr>
+
+
+    </table>
+</div>

@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container main-container">
+    <div class="flex-box" ng-repeat="status in [0,100,200,300,400,500,600]">
+        <h2 class="tilehead">
+            {{ {0:'Not yet Started',100:'Data Preperation', 200:'Anomaly Detection', 300:'Anomaly Validation', 400:'Calculate VPD', 500:'Extrapolate VPD', 600: 'Finished'}[status] }}
+        </h2>
+        <div class="list-group content">
+            <a class="list-group-item"
+               ng-repeat="country in $ctrl.countryList|filter: $ctrl.taskFilter(status)"
+               ui-sref="analysis.cockpit({country:country.CountryId,date:$root.$stateParams.date})">
+                {{country.CountryName}}
+            </a>
+        </div>
+    </div>
+
+
+</div>

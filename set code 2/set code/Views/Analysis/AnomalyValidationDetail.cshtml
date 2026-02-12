@@ -1,0 +1,134 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<h1 class="top">{{$ctrl.item.Brick}}, {{$ctrl.item.Sku}}<a class="closebtn" ui-sref="^"><i class="{{$root.Icons.close}}"></i></a></h1>
+<div class="content">
+    <h2>Monthly Measures</h2>
+    <div class="row">
+        <div class="col-sm-7">
+            <am-chart data="$ctrl.item.values"
+                      options="$ctrl.chartOptions"
+                      width="100%" height="150px"></am-chart>
+        </div>
+        <div class="col-sm-5" style="height: 150px; overflow: auto;">
+            <table class="table table-condensed table-striped">
+
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th class="number">Measure</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="month in $ctrl.item.values">
+                    <td>{{month.Name}}</td>
+                    <td class="number">{{month.value|number}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <h2>Anomalie Calculation</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="number">Value</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="">
+                <span uib-tooltip="Moving Annual Total Units"
+                      tooltip-append-to-body="true">
+                    Units MAT
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.UnitMat|number}}</td>
+        </tr>
+        <tr>
+            <td class="">
+                <span uib-tooltip="Time Series Anomaly"
+                      tooltip-append-to-body="true">
+                    TSA
+
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.C1 ||'-'}}</td>
+        </tr>
+        <tr>
+            <td class="">
+                <span uib-tooltip="Exceeds Standard Deviation Volume"
+                      tooltip-append-to-body="true">
+                    Exc. SDVolume
+
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.C2 ||'-'}}</td>
+        </tr>
+        <tr>
+            <td class="">
+                <span uib-tooltip="Exceeds Standard Deviation Value"
+                      tooltip-append-to-body="true">
+                    Exc. SDValue
+
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.C3 ||'-'}}</td>
+        </tr>
+        <tr>
+            <td class="">
+                <span uib-tooltip="Brick Moving Annual Total Growth"
+                      tooltip-append-to-body="true">
+                    Growth
+                </span>
+            </td>
+            <td class="number">{{$ctrl.item.C4 ||'-'}}</td>
+        </tr>
+        <tr>
+            <td class="">MAT Values Pharmacy</td>
+            <td class="number">{{$ctrl.item.ValueMatBrick|number}}</td>
+
+        </tr>
+        <tr>
+            <td>Potential Anomaly</td>
+            <td class="text-centered">
+                <check-box ng-model="$ctrl.item.AnomalyRegion"
+                           checked-icon="$root.Icons.anomaly"
+                           unchecked-icon="$root.Icons.noanomaly"
+                           ng-disabled="!$ctrl.permissions.canEditAnomaly"
+                           ng-change="$ctrl.update($ctrl.item,'AnomalyRegion')" ,
+                           ng-model-options="{debounce: 300}"></check-box>
+            </td>
+        </tr>
+        <tr>
+            <td>Is Anomaly</td>
+            <td class="text-centered">
+                <check-box ng-model="$ctrl.item.AnomalyCountry"
+                           checked-icon="$root.Icons.anomaly"
+                           unchecked-icon="$root.Icons.noanomaly"
+                           ng-disabled="!$ctrl.permissions.canEditCountryAnomaly || item.AnomalyApproved"
+                           ng-change="$ctrl.update($ctrl.item,'AnomalyCountry')" ,
+                           ng-model-options="{debounce: 300}"></check-box>
+            </td>
+        </tr>
+        <tr>
+            <td>Comment</td>
+            <td>
+                {{$ctrl.item.AnomalyComment}}
+                <comment ng-model="$ctrl.item.AnomalyComment"
+                         ng-hide="!$ctrl.permissions.canEditComment || $ctrl.item.AnomalyApproved"
+                         ng-change="$ctrl.update($ctrl.item,'AnomalyComment')"></comment>
+            </td>
+
+        </tr>
+        <tr>
+            <td>Approved</td>
+            <td class="text-centered">
+                <check-box ng-model="$ctrl.item.AnomalyApproved"
+                           ng-disabled="!$ctrl.permissions.canEditApproved"
+                           ng-change="$ctrl.update($ctrl.item,'AnomalyApproved')"></check-box>
+            </td>
+        </tr>
+    </table>
+</div>

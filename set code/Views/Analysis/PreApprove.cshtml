@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = null;
+}
+
+<h1 class="top">{{$ctrl.countryPeriod.CountryId}}, {{$ctrl.countryPeriod.PeriodId |moment:"MMM YYYY":"YYYYMM"}}<a class="closebtn" ui-sref="^"><i class="{{$root.Icons.close}}"></i></a></h1>
+<div class="content">
+
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><i ng-class="$root.Icons.search"></i></span>
+        <input class="form-control" placeholder="Search ..." ng-model="$ctrl.search.$" ng-model-options="{debounce:200}" />
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brick</th>
+                <th>Ok</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.bricks|filter: $ctrl.search">
+            <td>{{item.Brick}}</td>
+            <td><check-box ng-model="item.PreApproved" ng-change="$ctrl.update('PreApproved',item)" ng-disabled="!$ctrl.canEdit"></check-box></td>
+            <td><comment ng-model="item.Comment"
+                         ng-change="$ctrl.update('Comment',item)" 
+                         ng-disabled="!$ctrl.canEdit"></comment></td>
+        </tr>
+    </table>
+
+</div>

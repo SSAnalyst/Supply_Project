@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container">
+    <div class="flex-box" ng-show="$root.user.hasPermission('read', 'admin.user')">
+        <div class="tilehead">
+            <h1>User Administration</h1>
+        </div>
+        <div class="content">
+            <p>Here you can add Users and manage Permission and Country Association</p>
+            <a class="btn btn-primary btn-block" ui-sref="admin.user">User Administration</a>
+
+        </div>
+    </div>
+    <div class="flex-box" ng-show="$root.user.hasPermission('read', 'admin.role')">
+        <div class="tilehead">
+            <h1>Role Administration</h1>
+        </div>
+        <div class="content">
+            <p>Here you can add Roles and manage Permission and role Association</p>
+            <a class="btn btn-primary btn-block" ui-sref="admin.role">Role Administration</a>
+
+        </div>
+    </div>
+    <div class="flex-box" ng-show="$root.user.hasPermission('read', 'admin.country')">
+        <div class="tilehead">
+            <h1>Country Administration</h1>
+        </div>
+        <div class="content">
+            <p>Here you can manage Countries Brands</p>
+            <a class="btn btn-primary btn-block" ui-sref="admin.country">Country Administration</a>
+        </div>
+    </div>
+
+    <div class="flex-box" ng-show="$root.user.hasPermission('read', 'admin.sku')">
+        <div class="tilehead">
+            <h1>Sku Administration</h1>
+        </div>
+        <div class="content">
+            <p>Here you can manage SKUs</p>
+            <a class="btn btn-primary btn-block" ui-sref="admin.sku">Sku Administration</a>
+        </div>
+    </div>
+</div>

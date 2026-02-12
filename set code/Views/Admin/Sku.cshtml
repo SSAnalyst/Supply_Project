@@ -1,0 +1,34 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="flex-container">
+    <div class="flex-box">
+        <div class="tilehead">
+            <h1>Sku Adminsitration</h1>
+        </div>
+        <div class="content">
+            <table class="table" float-thead>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th class="number">Conversion Factor</th>
+                        <th>Last Update</th>
+                        <th>Inserted On</th>
+                        <th>Invalid</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="item in $ctrl.list">
+                    <td><a ui-sref="admin.sku.detail({id:item.BayerSkuUuid })">{{item.BayerSkuUuid}}</a></td>
+                    <td>{{item.BayerSkuName}}</td>
+                    <td class="number">{{item.ConversionFactor|number:0}}</td>
+                    <td>{{item.LastUpdate|date}}</td>
+                    <td>{{item.InsertedOn|date}}</td>
+                    <td><check-box ng-model="item.Invalid" ng-disabled="true"></check-box></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

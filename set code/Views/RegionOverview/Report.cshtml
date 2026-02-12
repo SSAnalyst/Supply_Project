@@ -1,0 +1,668 @@
+﻿
+@{
+    Layout = null;
+}
+<div class="content" ng-include src="$ctrl.Report.Template"></div>
+
+
+@*<script type="text/ng-template" id="Summary">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Multiple Countries:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplateMulti'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                Countries&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    {{$ctrl.Report.Description}}
+                </th>
+                <th class="number" ng-repeat="country in $ctrl.countryList|filter:{selected:true}">{{country.CountryName}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="product in $ctrl.products">
+            <td>{{product.Name}}</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(product[country.CountryName].Value)" ng-repeat="country in $ctrl.countryList|filter:{selected:true}">{{product[country.CountryName].Value|percent}}%</td>
+        </tr>
+    </table>
+</script>*@
+
+
+
+<script type="text/ng-template" id="EmergencyChannel">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Multiple Countries:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplateMulti'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                Countries&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    {{$ctrl.Report.Description}}
+                </th>
+                <th class="number" ng-repeat="country in $ctrl.countryList|filter:{selected:true}">{{country.CountryName}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="product in $ctrl.products">
+            <td>{{product.Name}}</td>
+            <td class="number" ng-repeat="country in $ctrl.countryList|filter:{selected:true}">{{product[country.CountryName].Value|number:0}}</td>
+        </tr>
+    </table>
+</script>
+
+
+@*<script type="text/ng-template" id="Flow">
+    <div class="row">
+        <div class="col-sm-2">
+            Type:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'flowTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Type}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+        <div class="col-sm-2">
+            Product:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'brandTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentBrand.BrandName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+
+        </div>
+    </div>
+
+    <am-chart data="$ctrl.list"
+              options="$ctrl.chartOptions"
+              style="min-height: 350px;"
+              width="100%"
+              height="350px"></am-chart>
+
+
+
+</script>
+<script type="text/ng-template" id="Supply">
+    <div class="row">
+        <div class="col-sm-2">
+            Type:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'supplyTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Type}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Product:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'brandTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>{{$ctrl.currentBrand.BrandName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+
+        </div>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th rowspan="2"></th>
+                <th colspan="4">{{$ctrl.Report.Name}}</th>
+            </tr>
+            <tr>
+                <th class="number">tablets (nm)</th>
+                <th class="number">{{$ctrl.supplyMonths[23]}}</th>
+                <th class="number">{{$ctrl.supplyMonths[22]}}</th>
+                <th class="number">{{$ctrl.supplyMonths[21]}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list|diff:$ctrl.countryList:'CountryName':'CountryName':true">
+            <td>{{item.CountryName}}</td>
+            <td class="number">{{item.KeyFigure|number;}}</td>
+            <td class="number">{{item.M1|percent}}%</td>
+            <td class="number">{{item.M2|percent}}%</td>
+            <td class="number">{{item.M3|percent}}%</td>
+        </tr>
+    </table>
+  
+</script>*@
+
+
+<script type="text/ng-template" id="countryTemplateMulti">
+    <div class="list-group" style="max-height:200px; overflow-y: auto; ">
+        <h3>Tier1</h3>
+        <a ng-repeat="country in $ctrl.countryList|filter:{Tier:1, StatusId:600}"
+           class="list-group-item"
+           ng-click="country.selected = !country.selected" ;
+           ng-class="{active: country.selected}">{{country.CountryName}}</a>
+        <h3>Tier 2</h3>
+        <a ng-repeat="country in $ctrl.countryList|filter: {Tier:2, StatusId:600}"
+           class="list-group-item"
+           ng-click="country.selected = !country.selected" ;
+           ng-class="{active: country.selected}">{{country.CountryName}}</a>
+    </div>
+</script>
+
+<script type="text/ng-template" id="countryTemplate">
+    <div class="list-group" style="max-height:200px; overflow-y: auto; ">
+        <h3>Tier1</h3>
+        <a ng-repeat="country in $ctrl.countryList|filter: {Tier:1,StatusId:600}"
+           class="list-group-item"
+           ui-sref="{countryId: country.CountryId}"
+           ng-class="{active: $ctrl.currentCountry.CountryId == country.CountryId}">{{country.CountryName}}</a>
+        <h3>Tier 2</h3>
+        <a ng-repeat="country in $ctrl.countryList|filter: {Tier:2,StatusId:600}"
+           class="list-group-item"
+           ui-sref="{countryId: country.CountryId}"
+           ng-class="{active: $ctrl.currentCountry.CountryId == country.CountryId}">{{country.CountryName}}</a>
+    </div>
+</script>
+<script type="text/ng-template" id="brandTemplate">
+    <div class="list-group" style="max-height:200px; overflow-y: auto; ">
+        <a ng-repeat="brand in $ctrl.brands"
+           class="list-group-item"
+           ui-sref="{brandUuid:brand.BrandUuid}"
+           ng-class="{active: $ctrl.currentBrand == brand}">{{brand.BrandName}}</a>
+    </div>
+</script>
+
+<script type="text/ng-template" id="rollingTemplate">
+
+    <div class="list-group" style="max-height:200px; overflow-y: auto; ">
+
+        <a class="list-group-item"
+           ui-sref="{Rolling:'R6'}"
+           ui-sref-active="active">6 Months rolling</a>
+        <a class="list-group-item"
+           ui-sref="{Rolling:'R3'}"
+           ui-sref-active="active">3 Months rolling</a>
+        <a class="list-group-item"
+           ui-sref="{Rolling:'R1'}"
+           ui-sref-active="active">1 Month rolling</a>
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="supplyTemplate">
+
+    <div class="list-group" style="max-height:200px; overflow-y: auto; ">
+
+        <a class="list-group-item"
+           ui-sref="{Supply:'Oversupply'}"
+           ui-sref-active="active">Oversupply</a>
+        <a class="list-group-item"
+           ui-sref="{Supply:'Undersupply'}"
+           ui-sref-active="active">Undersupply</a>
+    </div>
+
+</script>
+
+
+<script type="text/ng-template" id="flowTemplate">
+
+    <div class="list-group" style="max-height:200px; overflow-y: auto; ">
+
+
+        <a class="list-group-item"
+           ui-sref="{Flow:'Local'}"
+           ui-sref-active="active">Local</a>
+        <a class="list-group-item"
+           ui-sref="{Flow:'Global'}"
+           ui-sref-active="active"
+           ng-show="$root.user.hasPermission('read','report.global')">Global</a>
+    </div>
+
+</script>
+
+
+
+
+<script type="text/ng-template" id="ESEPDashboard">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+    </div>
+    <table class="table ">
+        <thead>
+            <tr>
+                <th rowspan="2" style="vertical-align: bottom">{{$ctrl.Report.Level}}</th>
+                <th rowspan="2" class="number" style="vertical-align: bottom">{{$ctrl.Report.Name}}</th>
+                <th colspan="12" class="text-center">{{$ctrl.Report.Description}}</th>
+            </tr>
+            <tr>
+                <th class="number">{{$ctrl.months[12]}}</th>
+                <th class="number">{{$ctrl.months[13]}}</th>
+                <th class="number">{{$ctrl.months[14]}}</th>
+                <th class="number">{{$ctrl.months[15]}}</th>
+                <th class="number">{{$ctrl.months[16]}}</th>
+                <th class="number">{{$ctrl.months[17]}}</th>
+                <th class="number">{{$ctrl.months[18]}}</th>
+                <th class="number">{{$ctrl.months[19]}}</th>
+                <th class="number">{{$ctrl.months[20]}}</th>
+                <th class="number">{{$ctrl.months[21]}}</th>
+                <th class="number">{{$ctrl.months[22]}}</th>
+                <th class="number">{{$ctrl.months[23]}}</th>
+
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list">
+            <td>{{item.Label}}</td>
+            <td class="number">{{item.KeyFigure|number}}</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M1)">{{item.M1|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M2)">{{item.M2|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M3)">{{item.M3|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M4)">{{item.M4|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M5)">{{item.M5|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M6)">{{item.M6|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M7)">{{item.M7|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M8)">{{item.M8|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M9)">{{item.M9|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M10)">{{item.M10|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M11)">{{item.M11|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M12)">{{item.M12|percent:1}}%</td>
+
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="SalesDashboard">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+    </div>
+    <table class="table ">
+        <thead>
+            <tr>
+                <th rowspan="2" style="vertical-align: bottom">{{$ctrl.Report.Level}}</th>
+                <th rowspan="2" class="number" style="vertical-align: bottom">{{$ctrl.Report.Name}} (Local Currency)</th>
+                <th colspan="12" class="text-center">{{$ctrl.Report.Description}}</th>
+            </tr>
+            <tr>
+                <th class="number">{{$ctrl.months[12]}}</th>
+                <th class="number">{{$ctrl.months[13]}}</th>
+                <th class="number">{{$ctrl.months[14]}}</th>
+                <th class="number">{{$ctrl.months[15]}}</th>
+                <th class="number">{{$ctrl.months[16]}}</th>
+                <th class="number">{{$ctrl.months[17]}}</th>
+                <th class="number">{{$ctrl.months[18]}}</th>
+                <th class="number">{{$ctrl.months[19]}}</th>
+                <th class="number">{{$ctrl.months[20]}}</th>
+                <th class="number">{{$ctrl.months[21]}}</th>
+                <th class="number">{{$ctrl.months[22]}}</th>
+                <th class="number">{{$ctrl.months[23]}}</th>
+
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list">
+            <td>{{item.Label}}</td>
+            <td class="number">{{item.KeyFigure|number}}</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M1)">{{item.M1|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M2)">{{item.M2|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M3)">{{item.M3|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M4)">{{item.M4|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M5)">{{item.M5|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M6)">{{item.M6|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M7)">{{item.M7|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M8)">{{item.M8|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M9)">{{item.M9|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M10)">{{item.M10|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M11)">{{item.M11|percent:1}}%</td>
+            <td class="number" ng-class="$ctrl.colorCodeESEP(item.M12)">{{item.M12|percent:1}}%</td>
+
+        </tr>
+    </table>
+</script>
+
+
+<script type="text/ng-template" id="Absolute12">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th class="number">{{$ctrl.months[12]}}</th>
+                <th class="number">{{$ctrl.months[13]}}</th>
+                <th class="number">{{$ctrl.months[14]}}</th>
+                <th class="number">{{$ctrl.months[15]}}</th>
+                <th class="number">{{$ctrl.months[16]}}</th>
+                <th class="number">{{$ctrl.months[17]}}</th>
+                <th class="number">{{$ctrl.months[18]}}</th>
+                <th class="number">{{$ctrl.months[19]}}</th>
+                <th class="number">{{$ctrl.months[20]}}</th>
+                <th class="number">{{$ctrl.months[21]}}</th>
+                <th class="number">{{$ctrl.months[22]}}</th>
+                <th class="number">{{$ctrl.months[23]}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list">
+            <td>{{item.Label}}</td>
+            <td class="number">{{item.M1|number:0}}</td>
+            <td class="number">{{item.M2|number:0}}</td>
+            <td class="number">{{item.M3|number:0}}</td>
+            <td class="number">{{item.M4|number:0}}</td>
+            <td class="number">{{item.M5|number:0}}</td>
+            <td class="number">{{item.M6|number:0}}</td>
+            <td class="number">{{item.M7|number:0}}</td>
+            <td class="number">{{item.M8|number:0}}</td>
+            <td class="number">{{item.M9|number:0}}</td>
+            <td class="number">{{item.M10|number:0}}</td>
+            <td class="number">{{item.M11|number:0}}</td>
+            <td class="number">{{item.M12|number:0}}</td>
+        </tr>
+    </table>
+
+</script>
+
+<script type="text/ng-template" id="Percent12">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th class="number">{{$ctrl.months[12]}}</th>
+                <th class="number">{{$ctrl.months[13]}}</th>
+                <th class="number">{{$ctrl.months[14]}}</th>
+                <th class="number">{{$ctrl.months[15]}}</th>
+                <th class="number">{{$ctrl.months[16]}}</th>
+                <th class="number">{{$ctrl.months[17]}}</th>
+                <th class="number">{{$ctrl.months[18]}}</th>
+                <th class="number">{{$ctrl.months[19]}}</th>
+                <th class="number">{{$ctrl.months[20]}}</th>
+                <th class="number">{{$ctrl.months[21]}}</th>
+                <th class="number">{{$ctrl.months[22]}}</th>
+                <th class="number">{{$ctrl.months[23]}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list">
+            <td>{{item.Label}}</td>
+            <td class="number">{{item.M1|percent:2}}%</td>
+            <td class="number">{{item.M2|percent:2}}%</td>
+            <td class="number">{{item.M3|percent:2}}%</td>
+            <td class="number">{{item.M4|percent:2}}%</td>
+            <td class="number">{{item.M5|percent:2}}%</td>
+            <td class="number">{{item.M6|percent:2}}%</td>
+            <td class="number">{{item.M7|percent:2}}%</td>
+            <td class="number">{{item.M8|percent:2}}%</td>
+            <td class="number">{{item.M9|percent:2}}%</td>
+            <td class="number">{{item.M10|percent:2}}%</td>
+            <td class="number">{{item.M11|percent:2}}%</td>
+            <td class="number">{{item.M12|percent:2}}%</td>
+        </tr>
+    </table>
+
+</script>
+<script type="text/ng-template" id="Absolute18">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th class="number">{{$ctrl.months[6]}}</th>
+                <th class="number">{{$ctrl.months[7]}}</th>
+                <th class="number">{{$ctrl.months[8]}}</th>
+                <th class="number">{{$ctrl.months[9]}}</th>
+                <th class="number">{{$ctrl.months[10]}}</th>
+                <th class="number">{{$ctrl.months[11]}}</th>
+                <th class="number">{{$ctrl.months[12]}}</th>
+                <th class="number">{{$ctrl.months[13]}}</th>
+                <th class="number">{{$ctrl.months[14]}}</th>
+                <th class="number">{{$ctrl.months[15]}}</th>
+                <th class="number">{{$ctrl.months[16]}}</th>
+                <th class="number">{{$ctrl.months[17]}}</th>
+                <th class="number">{{$ctrl.months[18]}}</th>
+                <th class="number">{{$ctrl.months[19]}}</th>
+                <th class="number">{{$ctrl.months[20]}}</th>
+                <th class="number">{{$ctrl.months[21]}}</th>
+                <th class="number">{{$ctrl.months[22]}}</th>
+                <th class="number">{{$ctrl.months[23]}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list">
+            <td>{{item.Label}}</td>
+            <td class="number">{{item.M1|number:0}}</td>
+            <td class="number">{{item.M2|number:0}}</td>
+            <td class="number">{{item.M3|number:0}}</td>
+            <td class="number">{{item.M4|number:0}}</td>
+            <td class="number">{{item.M5|number:0}}</td>
+            <td class="number">{{item.M6|number:0}}</td>
+            <td class="number">{{item.M7|number:0}}</td>
+            <td class="number">{{item.M8|number:0}}</td>
+            <td class="number">{{item.M9|number:0}}</td>
+            <td class="number">{{item.M10|number:0}}</td>
+            <td class="number">{{item.M11|number:0}}</td>
+            <td class="number">{{item.M12|number:0}}</td>
+            <td class="number">{{item.M13|number:0}}</td>
+            <td class="number">{{item.M14|number:0}}</td>
+            <td class="number">{{item.M15|number:0}}</td>
+            <td class="number">{{item.M16|number:0}}</td>
+            <td class="number">{{item.M17|number:0}}</td>
+            <td class="number">{{item.M18|number:0}}</td>
+        </tr>
+    </table>
+
+</script>
+<script type="text/ng-template" id="Percent18">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            Country:
+            <span class="btn btn-default  btn-block"
+                  uib-popover
+                  uib-popover-template="'countryTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-right'>{{$ctrl.currentCountry.CountryName}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub></span>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th class="number">{{$ctrl.months[6]}}</th>
+                <th class="number">{{$ctrl.months[7]}}</th>
+                <th class="number">{{$ctrl.months[8]}}</th>
+                <th class="number">{{$ctrl.months[9]}}</th>
+                <th class="number">{{$ctrl.months[10]}}</th>
+                <th class="number">{{$ctrl.months[11]}}</th>
+                <th class="number">{{$ctrl.months[12]}}</th>
+                <th class="number">{{$ctrl.months[13]}}</th>
+                <th class="number">{{$ctrl.months[14]}}</th>
+                <th class="number">{{$ctrl.months[15]}}</th>
+                <th class="number">{{$ctrl.months[16]}}</th>
+                <th class="number">{{$ctrl.months[17]}}</th>
+                <th class="number">{{$ctrl.months[18]}}</th>
+                <th class="number">{{$ctrl.months[19]}}</th>
+                <th class="number">{{$ctrl.months[20]}}</th>
+                <th class="number">{{$ctrl.months[21]}}</th>
+                <th class="number">{{$ctrl.months[22]}}</th>
+                <th class="number">{{$ctrl.months[23]}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in $ctrl.list">
+            <td>{{item.Label}}</td>
+            <td class="number">{{item.M1|percent:2}}%</td>
+            <td class="number">{{item.M2|percent:2}}%</td>
+            <td class="number">{{item.M3|percent:2}}%</td>
+            <td class="number">{{item.M4|percent:2}}%</td>
+            <td class="number">{{item.M5|percent:2}}%</td>
+            <td class="number">{{item.M6|percent:2}}%</td>
+            <td class="number">{{item.M7|percent:2}}%</td>
+            <td class="number">{{item.M8|percent:2}}%</td>
+            <td class="number">{{item.M9|percent:2}}%</td>
+            <td class="number">{{item.M10|percent:2}}%</td>
+            <td class="number">{{item.M11|percent:2}}%</td>
+            <td class="number">{{item.M12|percent:2}}%</td>
+            <td class="number">{{item.M13|percent:2}}%</td>
+            <td class="number">{{item.M14|percent:2}}%</td>
+            <td class="number">{{item.M15|percent:2}}%</td>
+            <td class="number">{{item.M16|percent:2}}%</td>
+            <td class="number">{{item.M17|percent:2}}%</td>
+            <td class="number">{{item.M18|percent:2}}%</td>
+        </tr>
+    </table>
+
+</script>
+
+<script type="text/ng-template" id="NoData">
+    <div class="row">
+        <div class="col-sm-2">
+            Rolling Months:
+            <span class="btn btn-default btn-block"
+                  uib-popover
+                  uib-popover-template="'rollingTemplate'"
+                  popover-trigger='"outsideClick"'
+                  popover-placement='bottom-left'>
+                {{$ctrl.Report.Name}}&nbsp;<sub ng-class="$root.Icons.arrowdown"></sub>
+            </span>
+        </div>
+    </div>
+    <h3>No Data</h3>
+</script>
