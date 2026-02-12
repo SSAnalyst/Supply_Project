@@ -1,0 +1,513 @@
+.
+├── repo_tree.tx
+├── set code
+│   └── bin
+│       ├── Accord.MachineLearning.GPL.dll
+│       ├── Accord.Math.Core.dll
+│       ├── Accord.Math.dll
+│       ├── Accord.Statistics.dll
+│       ├── Accord.dll
+│       ├── Accord.dll.config
+│       ├── Antlr3.Runtime.dll
+│       ├── Antlr3.Runtime.pdb
+│       ├── Bayer.SharePoint.SET.AppWeb.dll
+│       ├── Bayer.SharePoint.SET.AppWeb.pdb
+│       ├── EPPlus.dll
+│       ├── Microsoft.Web.Infrastructure.dll
+│       ├── Newtonsoft.Json.dll
+│       ├── System.Net.Http.Formatting.dll
+│       ├── System.Web.Helpers.dll
+│       ├── System.Web.Http.Owin.dll
+│       ├── System.Web.Http.WebHost.dll
+│       ├── System.Web.Http.dll
+│       ├── System.Web.Mvc.dll
+│       ├── System.Web.Optimization.dll
+│       ├── System.Web.Razor.dll
+│       ├── System.Web.WebPages.Deployment.dll
+│       ├── System.Web.WebPages.Razor.dll
+│       ├── System.Web.WebPages.dll
+│       ├── WebGrease.dll
+│       ├── de
+│       └── log4net.dll
+├── set code 2
+│   └── set code
+│       ├── .gitignore
+│       ├── Accord.dll.config
+│       ├── App
+│       │   ├── Components
+│       │   │   ├── Admin
+│       │   │   │   ├── Country
+│       │   │   │   │   ├── admin.country.component.js
+│       │   │   │   │   ├── admin.country.detail.component.js
+│       │   │   │   │   ├── admin.country.service.js
+│       │   │   │   │   └── admin.country.states.js
+│       │   │   │   ├── Role
+│       │   │   │   │   ├── admin.role.component.js
+│       │   │   │   │   ├── admin.role.detail.component.js
+│       │   │   │   │   ├── admin.role.service.js
+│       │   │   │   │   └── admin.role.states.js
+│       │   │   │   ├── Sku
+│       │   │   │   │   ├── admin.sku.component.js
+│       │   │   │   │   ├── admin.sku.detail.component.js
+│       │   │   │   │   ├── admin.sku.service.js
+│       │   │   │   │   └── admin.sku.states.js
+│       │   │   │   ├── User
+│       │   │   │   │   ├── admin.user.component.js
+│       │   │   │   │   ├── admin.user.detail.component.js
+│       │   │   │   │   ├── admin.user.service.js
+│       │   │   │   │   └── admin.user.states.js
+│       │   │   │   ├── admin.component.js
+│       │   │   │   ├── admin.service.js
+│       │   │   │   ├── admin.states.js
+│       │   │   │   └── picker.component.js
+│       │   │   ├── Analysis
+│       │   │   │   ├── AnomalyDetection
+│       │   │   │   │   ├── anomalyDetection.component.js
+│       │   │   │   │   ├── anomalyDetection.detail.component.js
+│       │   │   │   │   ├── anomalyDetection.service.js
+│       │   │   │   │   └── anomalyDetection.states.js
+│       │   │   │   ├── AnomalyValidation
+│       │   │   │   │   ├── AnomalyValidation.component.js
+│       │   │   │   │   ├── AnomalyValidation.detail.component.js
+│       │   │   │   │   ├── AnomalyValidation.service.js
+│       │   │   │   │   └── AnomalyValidation.states.js
+│       │   │   │   ├── Cockpit
+│       │   │   │   │   ├── cockpit.anomalyDetection.component.js
+│       │   │   │   │   ├── cockpit.anomalyValidation.component.js
+│       │   │   │   │   ├── cockpit.component.js
+│       │   │   │   │   ├── cockpit.dataPreparation.component.js
+│       │   │   │   │   ├── cockpit.extrapolate.component.js
+│       │   │   │   │   ├── cockpit.pdv.component.js
+│       │   │   │   │   ├── cockpit.service.js
+│       │   │   │   │   └── cockpit.states.js
+│       │   │   │   ├── DataPreparation
+│       │   │   │   │   ├── dataPreparation.component.js
+│       │   │   │   │   ├── dataPreparation.detail.component.js
+│       │   │   │   │   ├── dataPreparation.service.js
+│       │   │   │   │   ├── dataPreparation.states.js
+│       │   │   │   │   └── dataPreperation.PreApprove.component.js
+│       │   │   │   ├── Extrapolate
+│       │   │   │   │   ├── extrapolate.component.js
+│       │   │   │   │   ├── extrapolate.detail.component.js
+│       │   │   │   │   ├── extrapolate.new.component.js
+│       │   │   │   │   ├── extrapolate.service.js
+│       │   │   │   │   ├── extrapolate.states.js
+│       │   │   │   │   ├── numberscale.directive.js
+│       │   │   │   │   ├── numberscale.factory.js
+│       │   │   │   │   └── numberscale.filter.js
+│       │   │   │   ├── PatientDemandValidation
+│       │   │   │   │   ├── patientDemandValidation.component.js
+│       │   │   │   │   ├── patientDemandValidation.detail.component .js
+│       │   │   │   │   ├── patientDemandValidation.service.js
+│       │   │   │   │   └── patientDemandValidation.states.js
+│       │   │   │   ├── Report
+│       │   │   │   │   ├── report.service.js
+│       │   │   │   │   ├── report.states.js
+│       │   │   │   │   └── reports.component.js
+│       │   │   │   ├── analysis.breadcrumbs.component.js
+│       │   │   │   ├── analysis.component.js
+│       │   │   │   ├── analysis.states.js
+│       │   │   │   └── picker.component.js
+│       │   │   ├── RegionOverview
+│       │   │   │   ├── Financials
+│       │   │   │   │   ├── financials.component.js
+│       │   │   │   │   ├── financials.datePicker.component.js
+│       │   │   │   │   ├── financials.detail.component.js
+│       │   │   │   │   ├── financials.overview.component.js
+│       │   │   │   │   ├── financials.report.component.js
+│       │   │   │   │   ├── financials.reportadj.component.js
+│       │   │   │   │   ├── financials.scenario.js
+│       │   │   │   │   ├── financials.service.js
+│       │   │   │   │   └── financials.states.js
+│       │   │   │   ├── Report
+│       │   │   │   │   ├── report.component.js
+│       │   │   │   │   ├── report.service.js
+│       │   │   │   │   ├── report.states.js
+│       │   │   │   │   └── reports.component.js
+│       │   │   │   ├── datePicker.component.js
+│       │   │   │   ├── regionOverview.component.js
+│       │   │   │   ├── regionOverview.states.js
+│       │   │   │   └── viewPicker.component.js
+│       │   │   └── main
+│       │   │       ├── app.component.js
+│       │   │       └── app.states.js
+│       │   ├── app.js
+│       │   ├── config
+│       │   │   ├── accessRestriction.run.js
+│       │   │   ├── helpInit.run.js
+│       │   │   ├── loader.run.js
+│       │   │   ├── odata.config.js
+│       │   │   ├── rootScopeInjection.run.js
+│       │   │   ├── router.config.js
+│       │   │   ├── transitionError.run.js
+│       │   │   └── uib.config.js
+│       │   ├── functions.js
+│       │   └── shared
+│       │       ├── config.js
+│       │       ├── directives
+│       │       │   ├── amCharts.directive.js
+│       │       │   ├── box.component.js
+│       │       │   ├── breadcrumbs.component.js
+│       │       │   ├── checkbox.js.directive.js
+│       │       │   ├── comment.directive.js
+│       │       │   ├── datatype.directive.js
+│       │       │   ├── distinctFilter.directive.js
+│       │       │   ├── fieldComment.directive.js
+│       │       │   ├── floatThead.directive.js
+│       │       │   ├── number.directive.js
+│       │       │   ├── percent.directive.js
+│       │       │   ├── riskPicker.directive.js
+│       │       │   ├── setDropdown.directive.js
+│       │       │   ├── setPopover.directive.js
+│       │       │   ├── sideNav.component.js
+│       │       │   ├── spinner.directive.js
+│       │       │   └── statusIcon.directive.js
+│       │       ├── filter
+│       │       │   ├── diff.filter.js
+│       │       │   ├── distinct.filter.js
+│       │       │   ├── find.filter.js
+│       │       │   ├── join.filter.js
+│       │       │   ├── limit.filter.js
+│       │       │   ├── moment.filter.js
+│       │       │   ├── numberPrefix.directive.js
+│       │       │   ├── percent.filter.js
+│       │       │   ├── periodName.filter.js
+│       │       │   └── sum.filter.js
+│       │       ├── services
+│       │       │   ├── Country.service.js
+│       │       │   ├── Date.service.js
+│       │       │   ├── Icon.service.js
+│       │       │   ├── User.service.js
+│       │       │   ├── help.service.js
+│       │       │   ├── number.factory.js
+│       │       │   ├── odata.service.js
+│       │       │   ├── sidenav.service.js
+│       │       │   └── toaster.service.js
+│       │       ├── templates
+│       │       │   ├── commentPopover.html
+│       │       │   ├── distinctPopover.html
+│       │       │   └── modal.html
+│       │       └── thirdParty
+│       │           └── vsRepeat
+│       │               └── vsRepeat.js
+│       ├── Content
+│       │   ├── Components
+│       │   │   ├── Cockpit.less
+│       │   │   ├── loading.less
+│       │   │   ├── modal.less
+│       │   │   ├── msIcon.less
+│       │   │   ├── regionOverview.less
+│       │   │   ├── riskPicker.less
+│       │   │   ├── sidenav.less
+│       │   │   ├── toaster.less
+│       │   │   ├── top-bar.less
+│       │   │   └── ui-view.less
+│       │   ├── EmailTemplates
+│       │   │   └── EmailTemplate.html
+│       │   ├── ExcelTemplates
+│       │   │   ├── BrickTemplate.xlsx
+│       │   │   ├── DiagramTest.xlsx
+│       │   │   └── NationalTemplate.xlsx
+│       │   ├── bootstrap
+│       │   │   ├── alerts.less
+│       │   │   ├── badges.less
+│       │   │   ├── bootstrap.less
+│       │   │   ├── breadcrumbs.less
+│       │   │   ├── button-groups.less
+│       │   │   ├── buttons.less
+│       │   │   ├── carousel.less
+│       │   │   ├── close.less
+│       │   │   ├── code.less
+│       │   │   ├── component-animations.less
+│       │   │   ├── dropdowns.less
+│       │   │   ├── forms.less
+│       │   │   ├── glyphicons.less
+│       │   │   ├── grid.less
+│       │   │   ├── input-groups.less
+│       │   │   ├── jumbotron.less
+│       │   │   ├── labels.less
+│       │   │   ├── list-group.less
+│       │   │   ├── media.less
+│       │   │   ├── mixins
+│       │   │   │   ├── alerts.less
+│       │   │   │   ├── background-variant.less
+│       │   │   │   ├── border-radius.less
+│       │   │   │   ├── buttons.less
+│       │   │   │   ├── center-block.less
+│       │   │   │   ├── clearfix.less
+│       │   │   │   ├── forms.less
+│       │   │   │   ├── gradients.less
+│       │   │   │   ├── grid-framework.less
+│       │   │   │   ├── grid.less
+│       │   │   │   ├── hide-text.less
+│       │   │   │   ├── image.less
+│       │   │   │   ├── labels.less
+│       │   │   │   ├── list-group.less
+│       │   │   │   ├── nav-divider.less
+│       │   │   │   ├── nav-vertical-align.less
+│       │   │   │   ├── opacity.less
+│       │   │   │   ├── pagination.less
+│       │   │   │   ├── panels.less
+│       │   │   │   ├── progress-bar.less
+│       │   │   │   ├── reset-filter.less
+│       │   │   │   ├── reset-text.less
+│       │   │   │   ├── resize.less
+│       │   │   │   ├── responsive-visibility.less
+│       │   │   │   ├── size.less
+│       │   │   │   ├── tab-focus.less
+│       │   │   │   ├── table-row.less
+│       │   │   │   ├── text-emphasis.less
+│       │   │   │   ├── text-overflow.less
+│       │   │   │   └── vendor-prefixes.less
+│       │   │   ├── mixins.less
+│       │   │   ├── modals.less
+│       │   │   ├── navbar.less
+│       │   │   ├── navs.less
+│       │   │   ├── normalize.less
+│       │   │   ├── pager.less
+│       │   │   ├── pagination.less
+│       │   │   ├── panels.less
+│       │   │   ├── popovers.less
+│       │   │   ├── print.less
+│       │   │   ├── progress-bars.less
+│       │   │   ├── responsive-embed.less
+│       │   │   ├── responsive-utilities.less
+│       │   │   ├── scaffolding.less
+│       │   │   ├── tables.less
+│       │   │   ├── theme.less
+│       │   │   ├── thumbnails.less
+│       │   │   ├── tooltip.less
+│       │   │   ├── type.less
+│       │   │   ├── utilities.less
+│       │   │   ├── variables.less
+│       │   │   └── wells.less
+│       │   ├── bootstrap.css
+│       │   ├── bootstrap.less
+│       │   ├── bootstrap.min.css
+│       │   ├── fonts
+│       │   │   ├── fabricmdl2icons-2.30.ttf
+│       │   │   ├── fabricmdl2icons-2.30.woff
+│       │   │   ├── fabricmdl2icons-2.30.woff2
+│       │   │   ├── fabricmdl2icons.ttf
+│       │   │   ├── fabricmdl2icons.woff
+│       │   │   ├── fabricmdl2icons.woff2
+│       │   │   ├── glyphicons-halflings-regular.eot
+│       │   │   ├── glyphicons-halflings-regular.svg
+│       │   │   ├── glyphicons-halflings-regular.ttf
+│       │   │   ├── glyphicons-halflings-regular.woff
+│       │   │   └── glyphicons-halflings-regular.woff2
+│       │   ├── ui-bootstrap-csp.css
+│       │   └── variables.less
+│       ├── Global.asax
+│       ├── Helper
+│       │   └── Hana.Core.ttinclude
+│       ├── Images
+│       │   ├── Logo_Cross_20_Wht.png
+│       │   ├── Logo_Cross_Screen_Wht.png
+│       │   ├── bayer.gif
+│       │   ├── bayer_20_logo.png
+│       │   ├── default_user.jpg
+│       │   └── favicon.ico
+│       ├── Models
+│       │   └── Hana.Models.Template.ttinclude
+│       ├── Scripts
+│       │   ├── FileAPI.flash.swf
+│       │   ├── FileAPI.js
+│       │   ├── FileAPI.min.js
+│       │   ├── _references.js
+│       │   ├── amcharts
+│       │   │   ├── amcharts.js
+│       │   │   ├── images
+│       │   │   │   ├── dragIcon.gif
+│       │   │   │   ├── dragIconBlack.gif
+│       │   │   │   ├── dragIconH.gif
+│       │   │   │   ├── dragIconHBlack.gif
+│       │   │   │   ├── dragIconRectBig.png
+│       │   │   │   ├── dragIconRectBig.svg
+│       │   │   │   ├── dragIconRectBigBlack.png
+│       │   │   │   ├── dragIconRectBigBlack.svg
+│       │   │   │   ├── dragIconRectBigBlackH.png
+│       │   │   │   ├── dragIconRectBigBlackH.svg
+│       │   │   │   ├── dragIconRectBigH.png
+│       │   │   │   ├── dragIconRectBigH.svg
+│       │   │   │   ├── dragIconRectSmall.png
+│       │   │   │   ├── dragIconRectSmall.svg
+│       │   │   │   ├── dragIconRectSmallBlack.png
+│       │   │   │   ├── dragIconRectSmallBlack.svg
+│       │   │   │   ├── dragIconRectSmallBlackH.png
+│       │   │   │   ├── dragIconRectSmallBlackH.svg
+│       │   │   │   ├── dragIconRectSmallH.png
+│       │   │   │   ├── dragIconRectSmallH.svg
+│       │   │   │   ├── dragIconRoundBig.png
+│       │   │   │   ├── dragIconRoundBig.svg
+│       │   │   │   ├── dragIconRoundBigBlack.png
+│       │   │   │   ├── dragIconRoundBigBlack.svg
+│       │   │   │   ├── dragIconRoundBigBlackH.png
+│       │   │   │   ├── dragIconRoundBigBlackH.svg
+│       │   │   │   ├── dragIconRoundBigH.png
+│       │   │   │   ├── dragIconRoundBigH.svg
+│       │   │   │   ├── dragIconRoundSmall.png
+│       │   │   │   ├── dragIconRoundSmall.svg
+│       │   │   │   ├── dragIconRoundSmallBlack.png
+│       │   │   │   ├── dragIconRoundSmallBlack.svg
+│       │   │   │   ├── dragIconRoundSmallBlackH.png
+│       │   │   │   ├── dragIconRoundSmallBlackH.svg
+│       │   │   │   ├── dragIconRoundSmallH.png
+│       │   │   │   ├── dragIconRoundSmallH.svg
+│       │   │   │   ├── eraserIcon.svg
+│       │   │   │   ├── eraserIconH.svg
+│       │   │   │   ├── export.png
+│       │   │   │   ├── exportWhite.png
+│       │   │   │   ├── lens.png
+│       │   │   │   ├── lens.svg
+│       │   │   │   ├── lensWhite.png
+│       │   │   │   ├── lensWhite.svg
+│       │   │   │   ├── lensWhite_old.png
+│       │   │   │   ├── lens_old.png
+│       │   │   │   ├── pencilIcon.svg
+│       │   │   │   ├── pencilIconH.svg
+│       │   │   │   ├── xIcon.svg
+│       │   │   │   └── xIconH.svg
+│       │   │   ├── serial.js
+│       │   │   └── xy.js
+│       │   ├── angular-animate.js
+│       │   ├── angular-animate.min.js
+│       │   ├── angular-animate.min.js.map
+│       │   ├── angular-mocks.js
+│       │   ├── angular-sanitize.js
+│       │   ├── angular-sanitize.min.js
+│       │   ├── angular-sanitize.min.js.map
+│       │   ├── angular-ui
+│       │   │   ├── ui-bootstrap-tpls.js
+│       │   │   ├── ui-bootstrap-tpls.min.js
+│       │   │   ├── ui-bootstrap.js
+│       │   │   └── ui-bootstrap.min.js
+│       │   ├── angular-ui-router.js
+│       │   ├── angular-ui-router.js.map
+│       │   ├── angular-ui-router.min.js
+│       │   ├── angular-ui-router.min.js.map
+│       │   ├── angular.js
+│       │   ├── angular.min.js
+│       │   ├── angular.min.js.map
+│       │   ├── bootstrap.js
+│       │   ├── bootstrap.min.js
+│       │   ├── floatThead.js
+│       │   ├── jquery-3.1.1.js
+│       │   ├── jquery-3.1.1.min.js
+│       │   ├── jquery-3.1.1.min.map
+│       │   ├── jquery-3.1.1.slim.js
+│       │   ├── jquery-3.1.1.slim.min.js
+│       │   ├── jquery-3.1.1.slim.min.map
+│       │   ├── modernizr-2.8.3.js
+│       │   ├── moment-with-locales.js
+│       │   ├── moment-with-locales.min.js
+│       │   ├── moment.js
+│       │   ├── moment.min.js
+│       │   ├── ng-file-upload-all.js
+│       │   ├── ng-file-upload-all.min.js
+│       │   ├── ng-file-upload-shim.js
+│       │   ├── ng-file-upload-shim.min.js
+│       │   ├── ng-file-upload.js
+│       │   ├── ng-file-upload.min.js
+│       │   ├── respond.js
+│       │   ├── respond.matchmedia.addListener.js
+│       │   ├── respond.matchmedia.addListener.min.js
+│       │   ├── respond.min.js
+│       │   └── spcontext.js
+│       ├── Views
+│       │   ├── Admin
+│       │   │   ├── Country.cshtml
+│       │   │   ├── CountryDetail.cshtml
+│       │   │   ├── Index.cshtml
+│       │   │   ├── Role.cshtml
+│       │   │   ├── RoleDetail.cshtml
+│       │   │   ├── Sku.cshtml
+│       │   │   ├── SkuDetail.cshtml
+│       │   │   ├── User.cshtml
+│       │   │   └── UserDetail.cshtml
+│       │   ├── Analysis
+│       │   │   ├── AnomalyDetection.cshtml
+│       │   │   ├── AnomalyDetectionDetail.cshtml
+│       │   │   ├── AnomalyValidation.cshtml
+│       │   │   ├── AnomalyValidationDetail.cshtml
+│       │   │   ├── CockpitAnomalyDetection.cshtml
+│       │   │   ├── CockpitAnomalyValidation.cshtml
+│       │   │   ├── CockpitDataPreparation.cshtml
+│       │   │   ├── CockpitExtrapolate.cshtml
+│       │   │   ├── CockpitPDV.cshtml
+│       │   │   ├── DataPreparation.cshtml
+│       │   │   ├── DataPreparationDetail.cshtml
+│       │   │   ├── Extrapolate.cshtml
+│       │   │   ├── ExtrapolateDetail.cshtml
+│       │   │   ├── ExtrapolateNew.cshtml
+│       │   │   ├── Index.cshtml
+│       │   │   ├── PatientDemandValidation.cshtml
+│       │   │   ├── PatientDemandValidationDetail.cshtml
+│       │   │   ├── Picker.cshtml
+│       │   │   ├── PreApprove.cshtml
+│       │   │   └── Reports.cshtml
+│       │   ├── Financials
+│       │   │   ├── DatePicker.cshtml
+│       │   │   ├── Details.cshtml
+│       │   │   ├── Index.cshtml
+│       │   │   ├── Overview.cshtml
+│       │   │   ├── Picker.cshtml
+│       │   │   ├── Report.cshtml
+│       │   │   ├── ReportAdjusted.cshtml
+│       │   │   └── Scenario.cshtml
+│       │   ├── Home
+│       │   │   ├── About.cshtml
+│       │   │   ├── ApiBrowser.cshtml
+│       │   │   ├── Contact.cshtml
+│       │   │   └── Index.cshtml
+│       │   ├── RegionOverview
+│       │   │   ├── CountryView.cshtml
+│       │   │   ├── DatePicker.cshtml
+│       │   │   ├── MatrixView.cshtml
+│       │   │   ├── Report.cshtml
+│       │   │   ├── Reports.cshtml
+│       │   │   ├── TaskView.cshtml
+│       │   │   └── ViewPicker.cshtml
+│       │   ├── Set
+│       │   │   ├── Analysis.cshtml
+│       │   │   ├── CountryOverview.cshtml
+│       │   │   └── Index.cshtml
+│       │   ├── Shared
+│       │   │   ├── Error.cshtml
+│       │   │   └── _Layout.cshtml
+│       │   ├── Web.config
+│       │   └── _ViewStart.cshtml
+│       ├── Web.config
+│       ├── bin
+│       │   ├── Accord.MachineLearning.GPL.dll
+│       │   ├── Accord.Math.Core.dll
+│       │   ├── Accord.Math.dll
+│       │   ├── Accord.Statistics.dll
+│       │   ├── Accord.dll
+│       │   ├── Accord.dll.config
+│       │   ├── Antlr3.Runtime.dll
+│       │   ├── Antlr3.Runtime.pdb
+│       │   ├── Bayer.SharePoint.SET.AppWeb.dll
+│       │   ├── Bayer.SharePoint.SET.AppWeb.pdb
+│       │   ├── EPPlus.dll
+│       │   ├── Microsoft.Web.Infrastructure.dll
+│       │   ├── Newtonsoft.Json.dll
+│       │   ├── System.Net.Http.Formatting.dll
+│       │   ├── System.Web.Helpers.dll
+│       │   ├── System.Web.Http.Owin.dll
+│       │   ├── System.Web.Http.WebHost.dll
+│       │   ├── System.Web.Http.dll
+│       │   ├── System.Web.Mvc.dll
+│       │   ├── System.Web.Optimization.dll
+│       │   ├── System.Web.Razor.dll
+│       │   ├── System.Web.WebPages.Deployment.dll
+│       │   ├── System.Web.WebPages.Razor.dll
+│       │   ├── System.Web.WebPages.dll
+│       │   ├── WebGrease.dll
+│       │   ├── de
+│       │   └── log4net.dll
+│       ├── favicon.ico
+│       └── packages.config
+└── set code 2.zip
+
+57 directories, 454 files
